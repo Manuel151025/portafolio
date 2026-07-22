@@ -1,0 +1,30 @@
+---
+/**
+ * Intro.astro — Pantalla de bienvenida (overlay a pantalla completa).
+ * Solo HTML (template). La orquestación (sesión, fases, skip, scroll-lock
+ * y limpieza) vive en scripts/intro.js. Los estilos, en components.css
+ * (+ keyframe en animations.css). Ver CLAUDE.md §4 y §9.
+ *
+ * El overlay está OCULTO por CSS por defecto y intro.js lo activa solo en
+ * la primera visita de la sesión (y si no hay prefers-reduced-motion). Así
+ * no hay parpadeo en visitas repetidas y el LCP no se ve afectado: el
+ * contenido real se pinta detrás y la intro se superpone después.
+ */
+---
+
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__inner">
+    <p class="intro__eyebrow">— Portafolio</p>
+
+    <h2 class="intro__title">
+      <span class="intro__line">Bienvenido a mi</span>
+      <span class="intro__line">Portafolio</span>
+    </h2>
+
+    <span class="intro__pill">manuelcardenas.online</span>
+  </div>
+</div>
+
+<script>
+  import "../scripts/intro.js";
+</script>

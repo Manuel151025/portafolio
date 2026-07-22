@@ -169,9 +169,6 @@
    Stack (grid por grupo)
    ============================================================ */
 .stack__group {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-sm);
   padding-block: var(--space-lg);
   border-top: 1px solid var(--color-border);
 }
@@ -180,11 +177,17 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-@media (min-width: 768px) {
-  .stack__group {
-    grid-template-columns: 200px 1fr;
-    gap: var(--space-xl);
-    align-items: baseline;
+/* Cuadrícula de tarjetas de tecnología (mobile-first) */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 640px) {
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }
 

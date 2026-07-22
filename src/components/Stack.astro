@@ -1,26 +1,64 @@
 ---
 /**
- * Stack.astro — Chips de tecnologías agrupadas por categoría.
- * Los datos viven en el frontmatter (separados del template) y se
- * renderizan en bucle. Contenido según CLAUDE.md §8.
+ * Stack.astro — Tecnologías agrupadas por categoría, como tarjetas con icono.
+ * Datos en el frontmatter (nombre + logo/monograma + descripción breve).
+ * Los iconos son logos de marca monocromáticos (simple-icons, inlineados en
+ * build por astro-icon) pintados en gris. Cada tarjeta es un botón que abre
+ * un modal con un resumen (lógica en scripts/stack-info.js).
+ * Contenido según CLAUDE.md §8.
  */
+import { Icon } from "astro-icon/components";
+
 const groups = [
-  { category: "Backend", items: ["PHP 8", "MySQL 8", "PDO", "APIs REST"] },
+  {
+    category: "Backend",
+    items: [
+      { name: "PHP 8", icon: "simple-icons:php", desc: "Lenguaje de servidor para aplicaciones web. Uso la versión 8 con tipado, enums y mejor rendimiento." },
+      { name: "MySQL 8", icon: "simple-icons:mysql", desc: "Base de datos relacional. Modelo esquemas, consultas e índices para datos consistentes." },
+      { name: "PDO", sigla: "PDO", desc: "Capa de acceso a datos de PHP con consultas preparadas, que previene inyección SQL." },
+      { name: "APIs REST", sigla: "API", desc: "Servicios web sobre HTTP con JSON para comunicar backend, frontend y apps móviles." },
+    ],
+  },
   {
     category: "Frontend",
-    items: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5", "Astro"],
+    items: [
+      { name: "HTML5", icon: "simple-icons:html5", desc: "Lenguaje de marcado semántico, base estructural de toda página web." },
+      { name: "CSS3", icon: "simple-icons:css", desc: "Estilos y layout (Flexbox, Grid, animaciones) para interfaces responsivas." },
+      { name: "JavaScript", icon: "simple-icons:javascript", desc: "Lenguaje del navegador para la interactividad; lo uso vanilla (ES6+), sin librerías." },
+      { name: "Bootstrap 5", icon: "simple-icons:bootstrap", desc: "Framework CSS para maquetar interfaces responsivas rápidamente." },
+      { name: "Astro", icon: "simple-icons:astro", desc: "Framework web que genera HTML estático ultrarrápido; con él está hecho este portafolio." },
+    ],
   },
   {
     category: "Móvil",
-    items: ["Kotlin", "Jetpack Compose", "Room", "Retrofit", "Hilt"],
+    items: [
+      { name: "Kotlin", icon: "simple-icons:kotlin", desc: "Lenguaje oficial de Android, conciso y seguro frente a valores nulos." },
+      { name: "Jetpack Compose", icon: "simple-icons:jetpackcompose", desc: "Toolkit declarativo de Android para construir UI nativa con Kotlin." },
+      { name: "Room", icon: "simple-icons:sqlite", desc: "Librería de persistencia de Android: un ORM sobre SQLite con consultas verificadas en compilación." },
+      { name: "Retrofit", sigla: "RF", desc: "Cliente HTTP de Android para consumir APIs REST de forma tipada." },
+      { name: "Hilt", icon: "simple-icons:android", desc: "Inyección de dependencias para Android (sobre Dagger) que simplifica la arquitectura." },
+    ],
   },
   {
     category: "DevOps / Infra",
-    items: ["Docker", "Dokploy", "Linux", "Nginx", "Traefik", "VPS"],
+    items: [
+      { name: "Docker", icon: "simple-icons:docker", desc: "Contenedores para empaquetar y desplegar aplicaciones de forma reproducible." },
+      { name: "Dokploy", sigla: "DP", desc: "Plataforma tipo PaaS sobre el VPS para desplegar con Docker y auto-deploy en cada push." },
+      { name: "Linux", icon: "simple-icons:linux", desc: "Sistema operativo de los servidores donde administro los despliegues." },
+      { name: "Nginx", icon: "simple-icons:nginx", desc: "Servidor web y proxy inverso: sirve los estáticos y gestiona las peticiones." },
+      { name: "Traefik", icon: "simple-icons:traefikproxy", desc: "Proxy inverso que enruta dominios y emite HTTPS con Let's Encrypt." },
+      { name: "VPS", sigla: "VPS", desc: "Servidor virtual privado (Hostinger) donde corren las aplicaciones en producción." },
+    ],
   },
   {
     category: "Herramientas",
-    items: ["Git", "GitHub", "VS Code", "Claude Code", "MySQL Workbench"],
+    items: [
+      { name: "Git", icon: "simple-icons:git", desc: "Control de versiones para llevar el historial del código." },
+      { name: "GitHub", icon: "simple-icons:github", desc: "Alojamiento de repositorios y colaboración; origen de los despliegues." },
+      { name: "VS Code", icon: "simple-icons:visualstudiocode", desc: "Editor de código principal en mi flujo de trabajo." },
+      { name: "Claude Code", icon: "simple-icons:claude", desc: "Asistente de IA en mi flujo para acelerar el desarrollo; yo defino la arquitectura y reviso cada línea." },
+      { name: "MySQL Workbench", icon: "simple-icons:mysql", desc: "Herramienta visual para diseñar y administrar bases de datos MySQL." },
+    ],
   },
 ];
 ---
@@ -34,12 +72,24 @@ const groups = [
 
     <div class="stack__groups">
       {
-        groups.map((group, i) => (
-          <div class="stack__group reveal" style={`--reveal-delay: ${i * 80}ms`}>
+        groups.map((group) => (
+          <div class="stack__group">
             <h3 class="stack__category">{group.category}</h3>
-            <ul class="stack__chips">
-              {group.items.map((item) => (
-                <li class="chip">{item}</li>
+            <ul class="tech-grid">
+              {group.items.map((item, i) => (
+                <li class="tech-item reveal" style={`--reveal-delay: ${i * 45}ms`}>
+                  <button
+                    class="tech"
+                    type="button"
+                    data-name={item.name}
+                    data-desc={item.desc}
+                  >
+                    <span class="tech__icon" aria-hidden="true">
+                      {item.icon ? <Icon name={item.icon} /> : item.sigla}
+                    </span>
+                    <span class="tech__name">{item.name}</span>
+                  </button>
+                </li>
               ))}
             </ul>
           </div>
@@ -47,4 +97,21 @@ const groups = [
       }
     </div>
   </div>
+
+  <dialog class="tech-dialog" id="tech-dialog" aria-labelledby="tech-dialog-title">
+    <div class="tech-dialog__inner">
+      <button class="tech-dialog__close" type="button" aria-label="Cerrar">
+        <span aria-hidden="true">×</span>
+      </button>
+      <div class="tech-dialog__header">
+        <span class="tech-dialog__icon" aria-hidden="true"></span>
+        <h3 class="tech-dialog__title" id="tech-dialog-title"></h3>
+      </div>
+      <p class="tech-dialog__desc"></p>
+    </div>
+  </dialog>
 </section>
+
+<script>
+  import "../scripts/stack-info.js";
+</script>
