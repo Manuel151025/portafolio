@@ -1,0 +1,50 @@
+---
+/**
+ * Stack.astro — Chips de tecnologías agrupadas por categoría.
+ * Los datos viven en el frontmatter (separados del template) y se
+ * renderizan en bucle. Contenido según CLAUDE.md §8.
+ */
+const groups = [
+  { category: "Backend", items: ["PHP 8", "MySQL 8", "PDO", "APIs REST"] },
+  {
+    category: "Frontend",
+    items: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5", "Astro"],
+  },
+  {
+    category: "Móvil",
+    items: ["Kotlin", "Jetpack Compose", "Room", "Retrofit", "Hilt"],
+  },
+  {
+    category: "DevOps / Infra",
+    items: ["Docker", "Dokploy", "Linux", "Nginx", "Traefik", "VPS"],
+  },
+  {
+    category: "Herramientas",
+    items: ["Git", "GitHub", "VS Code", "Claude Code", "MySQL Workbench"],
+  },
+];
+---
+
+<section class="section stack" id="stack">
+  <div class="container">
+    <header class="section__head reveal">
+      <span class="section__index">02 —</span>
+      <h2 class="section__title">Stack</h2>
+    </header>
+
+    <div class="stack__groups">
+      {
+        groups.map((group, i) => (
+          <div class="stack__group reveal" style={`--reveal-delay: ${i * 80}ms`}>
+            <h3 class="stack__category">{group.category}</h3>
+            <ul class="stack__chips">
+              {group.items.map((item) => (
+                <li class="chip">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

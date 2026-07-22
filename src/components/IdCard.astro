@@ -1,0 +1,41 @@
+---
+/**
+ * IdCard.astro — Carnet 3D (elemento protagonista del Hero).
+ * Solo HTML (template). La interactividad vive en scripts/card-tilt.js
+ * y los estilos en styles/components.css. Ver CLAUDE.md §5 y §8.
+ *
+ * Nota: la foto es un placeholder con iniciales. Para usar la foto real,
+ * añade public/img/perfil.jpg y sustituye <span class="id-card__initials">
+ * por <img src="/img/perfil.jpg" alt="Manuel Cárdenas" width="..." height="..." />.
+ */
+const initials = "MC";
+---
+
+<div class="id-card-scene">
+  <article class="id-card" data-tilt aria-label="Carnet de desarrollador">
+    <div class="id-card__sheen" aria-hidden="true"></div>
+
+    <header class="id-card__header">
+      <span>Software Dev</span>
+      <span class="id-card__id">DEV-2026</span>
+    </header>
+
+    <div class="id-card__photo">
+      <span class="id-card__initials" aria-hidden="true">{initials}</span>
+    </div>
+
+    <div class="id-card__info">
+      <p class="id-card__name">Manuel A. Cárdenas</p>
+      <p class="id-card__role">Analista &amp; Desarrollador de Software</p>
+    </div>
+
+    <footer class="id-card__footer">
+      <span class="id-card__chip" aria-hidden="true"></span>
+      <span class="id-card__handle">@Manuel151025</span>
+    </footer>
+  </article>
+</div>
+
+<script>
+  import "../scripts/card-tilt.js";
+</script>

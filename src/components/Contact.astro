@@ -1,0 +1,78 @@
+---
+/**
+ * Contact.astro — Sección de contacto.
+ * CTA + canales (email, GitHub, LinkedIn, teléfono). Datos en el
+ * frontmatter (separados del template). Contenido según CLAUDE.md §8.
+ */
+const channels = [
+  {
+    label: "Email",
+    value: "Manuelcardenassuarez2005@gmail.com",
+    href: "mailto:Manuelcardenassuarez2005@gmail.com",
+    external: false,
+  },
+  {
+    label: "GitHub",
+    value: "@Manuel151025",
+    href: "https://github.com/Manuel151025",
+    external: true,
+  },
+  {
+    label: "LinkedIn",
+    value: "in/manuel-cardenas",
+    href: "https://www.linkedin.com/in/manuel-cardenas-89b03b424",
+    external: true,
+  },
+  {
+    label: "Teléfono",
+    value: "+57 320 989 1830",
+    href: "tel:+573209891830",
+    external: false,
+  },
+];
+---
+
+<section class="section contact" id="contact">
+  <div class="container">
+    <header class="section__head reveal">
+      <span class="section__index">04 —</span>
+      <h2 class="section__title">Contacto</h2>
+    </header>
+
+    <div class="contact__inner">
+      <div class="contact__cta reveal">
+        <p class="contact__lead">
+          ¿Tienes un proyecto en mente o una vacante que encaje? Hablemos.
+        </p>
+        <a
+          class="btn btn--primary"
+          href="mailto:Manuelcardenassuarez2005@gmail.com"
+        >
+          Escríbeme
+        </a>
+      </div>
+
+      <ul class="contact__channels">
+        {
+          channels.map((channel, i) => (
+            <li class="reveal" style={`--reveal-delay: ${i * 70}ms`}>
+              <a
+                class="contact__channel"
+                href={channel.href}
+                {...(channel.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                <span class="contact__channel-label">{channel.label}</span>
+                <span class="contact__channel-value">
+                  {channel.value}
+                  {channel.external && <span aria-hidden="true"> ↗</span>}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

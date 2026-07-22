@@ -1,0 +1,26 @@
+---
+/**
+ * Footer.astro — Pie de página.
+ * Copyright + links rápidos. Vive fuera de <main>. Ver CLAUDE.md §7.
+ */
+const year = new Date().getFullYear();
+
+const links = [
+  { href: "#about", label: "Sobre mí" },
+  { href: "#stack", label: "Stack" },
+  { href: "#projects", label: "Proyectos" },
+  { href: "#contact", label: "Contacto" },
+];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__copy">
+      © {year} Manuel Andrés Cárdenas Suárez
+    </p>
+
+    <nav class="footer__links" aria-label="Enlaces del pie de página">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </div>
+</footer>

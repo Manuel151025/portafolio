@@ -1,0 +1,109 @@
+/* ============================================================
+   variables.css — Design tokens (fuente única de verdad)
+   Portafolio · Manuel Andrés Cárdenas Suárez
+   Tema oscuro, monocromático + glow blanco. Ver CLAUDE.md §5.
+   ============================================================ */
+
+:root {
+  /* ---------- Paleta (dark, monocromática + glow blanco) ---------- */
+  --color-bg: #0a0a0b;              /* fondo base */
+  --color-surface: #141417;         /* cards / superficies */
+  --color-surface-2: #1c1c21;       /* superficie elevada */
+  --color-border: #26262b;          /* bordes sutiles */
+
+  --color-text: #f5f5f7;            /* texto principal */
+  --color-text-secondary: #a1a1aa;  /* texto secundario */
+
+  /* Glow / sombra blanca (para sheen, halos y elevaciones) */
+  --glow-soft: rgba(255, 255, 255, 0.08);
+  --glow-strong: rgba(255, 255, 255, 0.15);
+
+  /* Acento: por ahora ninguno (el "color" es el glow blanco).
+     Reserva aprobada para futuras etapas. */
+  --accent-violet: #8b5cf6;
+  --accent-cyan: #22d3ee;
+
+  /* Estado de proyecto (semántico y discreto, no es acento de marca).
+     Solo tiñe un punto de 7px en el badge. */
+  --status-live: #4ade80; /* Producción */
+  --status-wip: #f5b544;  /* En desarrollo */
+
+  /* ---------- Tipografías ----------
+     Stacks con fallbacks del sistema mientras cargan las webfonts. */
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Consolas",
+    "Liberation Mono", "Menlo", monospace;
+
+  /* Escala tipográfica fluida (mobile-first, escala con el viewport) */
+  --fs-xs: 0.75rem;      /* 12px  — chips, detalles < /> */
+  --fs-sm: 0.875rem;     /* 14px  — texto pequeño */
+  --fs-base: 1rem;       /* 16px  — cuerpo */
+  --fs-md: 1.125rem;     /* 18px  — cuerpo destacado */
+  --fs-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);      /* subtítulos */
+  --fs-xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);          /* h3 */
+  --fs-2xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);           /* h2 */
+  --fs-3xl: clamp(2.5rem, 1.6rem + 4.5vw, 4.5rem);       /* h1 / display */
+
+  /* Pesos */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Interlineados */
+  --lh-tight: 1.1;
+  --lh-snug: 1.3;
+  --lh-normal: 1.6;
+
+  /* Tracking */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+
+  /* ---------- Spacing (escala base 4px) ---------- */
+  --space-2xs: 0.25rem;   /* 4px  */
+  --space-xs: 0.5rem;     /* 8px  */
+  --space-sm: 0.75rem;    /* 12px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 4.5rem;    /* 72px */
+  --space-4xl: 6rem;      /* 96px */
+
+  /* Espaciado vertical entre secciones (fluido) */
+  --section-gap: clamp(4rem, 2.5rem + 7vw, 8rem);
+
+  /* ---------- Layout ---------- */
+  --container-max: 1120px;     /* ancho máximo del contenido */
+  --container-pad: clamp(1rem, 0.5rem + 3vw, 2rem); /* padding lateral */
+
+  /* ---------- Radios ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* ---------- Sombras / elevaciones ---------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 0 1px var(--glow-soft), 0 10px 40px var(--glow-soft);
+
+  /* ---------- Transiciones ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-fast: 150ms var(--ease-out);
+  --transition-base: 250ms var(--ease-out);
+  --transition-slow: 400ms var(--ease-out);
+
+  /* ---------- Z-index ---------- */
+  --z-base: 1;
+  --z-card: 10;
+  --z-navbar: 100;
+  --z-overlay: 1000;
+}

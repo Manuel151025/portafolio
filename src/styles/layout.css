@@ -1,0 +1,245 @@
+/* ============================================================
+   layout.css — Estructura, posición y grids (mobile-first)
+   Portafolio · Manuel Andrés Cárdenas Suárez
+   Solo posicionamiento/layout. Lo visual vive en components.css.
+   ============================================================ */
+
+/* ---------- Sección genérica ---------- */
+.section {
+  padding-block: var(--section-gap);
+}
+
+/* ============================================================
+   Navbar (posición)
+   ============================================================ */
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-navbar);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+/* Botón hamburguesa (visible solo en móvil) */
+.navbar__toggle {
+  position: relative;
+  z-index: var(--z-navbar);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.6rem;
+}
+
+/* Menú: panel desplegable en móvil */
+.navbar__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--container-pad) var(--space-lg);
+}
+
+/* ---------- Navbar en escritorio ---------- */
+@media (min-width: 768px) {
+  .navbar__toggle {
+    display: none;
+  }
+
+  .navbar__menu {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: 0;
+  }
+}
+
+/* ============================================================
+   Hero (grid)
+   ============================================================ */
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Deja aire bajo el navbar fijo (4rem) */
+  padding-block: calc(4rem + var(--space-2xl)) var(--space-2xl);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3xl);
+  align-items: center;
+  width: 100%;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  /* En móvil el carnet va arriba; el orden se invierte en desktop */
+  order: 2;
+}
+
+.hero__visual {
+  order: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+/* ---------- Hero en escritorio: dos columnas ---------- */
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-2xl);
+  }
+
+  .hero__content {
+    order: 1;
+  }
+
+  .hero__visual {
+    order: 2;
+    justify-content: flex-end;
+  }
+}
+
+/* ============================================================
+   Encabezado de sección (reutilizable)
+   ============================================================ */
+.section__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-2xl);
+}
+
+/* ============================================================
+   Sobre mí (grid)
+   ============================================================ */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 860px) {
+  .about__grid {
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+/* ============================================================
+   Stack (grid por grupo)
+   ============================================================ */
+.stack__group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.stack__group:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .stack__group {
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-xl);
+    align-items: baseline;
+  }
+}
+
+/* ============================================================
+   Proyectos (grid responsive)
+   ============================================================ */
+.projects__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .projects__grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* ============================================================
+   Contacto (grid)
+   ============================================================ */
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+.contact__channels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+@media (min-width: 520px) {
+  .contact__channels {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 860px) {
+  .contact__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .footer__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-lg);
+}

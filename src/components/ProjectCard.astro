@@ -1,0 +1,71 @@
+---
+/**
+ * ProjectCard.astro — Tarjeta de proyecto reutilizable (se define UNA vez).
+ * Recibe un objeto `proyecto` (ver data/projects.js) y lo renderiza.
+ * Solo HTML, sin JS. Ver CLAUDE.md §4 y §5.
+ */
+const { proyecto, index = 0 } = Astro.props;
+const { titulo, descripcion, stack, estado, repo, demo, imagen } = proyecto;
+
+// Punto de color semántico del badge según el estado (el resto es monocromo).
+const enProduccion = estado.toLowerCase().startsWith("produc");
+const badgeMod = enProduccion ? "badge--live" : "badge--wip";
+---
+
+<article class="project-card reveal" style={`--reveal-delay: ${index * 90}ms`}>
+  <div class="project-card__media">
+    {
+      imagen ? (
+        <img
+          src={imagen}
+          alt={`Captura del proyecto ${titulo}`}
+          loading="lazy"
+          width="640"
+          height="360"
+        />
+      ) : (
+        <span class="project-card__placeholder" aria-hidden="true">
+          &lt;/&gt;
+        </span>
+      )
+    }
+  </div>
+
+  <div class="project-card__body">
+    <div class="project-card__top">
+      <h3 class="project-card__title">{titulo}</h3>
+      <span class={`badge ${badgeMod}`}>{estado}</span>
+    </div>
+
+    <p class="project-card__desc">{descripcion}</p>
+
+    <footer class="project-card__footer">
+      <ul class="project-card__stack">
+        {stack.map((tech) => <li class="chip chip--sm">{tech}</li>)}
+      </ul>
+
+      <div class="project-card__links">
+        <a
+          class="project-card__link"
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Código <span aria-hidden="true">↗</span>
+        </a>
+        {
+          demo && (
+            <a
+              class="project-card__link"
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Demo <span aria-hidden="true">↗</span>
+            </a>
+          )
+        }
+      </div>
+    </footer>
+  </div>
+</article>

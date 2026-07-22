@@ -1,0 +1,38 @@
+# Contexto de build de Docker: excluye lo que no se necesita para compilar.
+# node_modules se reinstala dentro del contenedor con `npm ci`.
+
+node_modules
+dist
+.astro
+
+# Git y metadatos
+.git
+.gitignore
+.github
+
+# Editor / IDE
+.vscode
+.idea
+
+# Docker (no se necesita dentro del contexto)
+Dockerfile
+.dockerignore
+
+# Logs y temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Variables de entorno
+.env
+.env.*
+
+# Docs (no afectan el build)
+README.md
+CLAUDE.md
+AGENTS.md
+
+# SO
+.DS_Store

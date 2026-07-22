@@ -1,0 +1,693 @@
+/* ============================================================
+   components.css — Estilos visuales de componentes
+   Portafolio · Manuel Andrés Cárdenas Suárez
+   La posición/estructura vive en layout.css.
+   ============================================================ */
+
+/* ============================================================
+   Navbar
+   ============================================================ */
+.navbar {
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    backdrop-filter var(--transition-base);
+  border-bottom: 1px solid transparent;
+}
+
+/* Blur + fondo al hacer scroll (lo activa navbar.js) */
+.navbar.is-scrolled,
+.navbar.is-open {
+  background-color: rgba(10, 10, 11, 0.72);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--color-border);
+}
+
+.navbar__brand {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+.navbar__brand:hover {
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.navbar__menu {
+  font-family: var(--font-body);
+}
+
+/* En móvil, el panel desplegable necesita fondo propio */
+@media (max-width: 767.98px) {
+  .navbar__menu {
+    background-color: rgba(10, 10, 11, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--color-border);
+    /* Oculto por defecto; se revela con .is-open */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--transition-base),
+      transform var(--transition-base),
+      visibility var(--transition-base);
+  }
+
+  .navbar.is-open .navbar__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.navbar__menu a {
+  display: block;
+  padding: var(--space-xs) var(--space-2xs);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-secondary);
+}
+
+.navbar__menu a:hover {
+  color: var(--color-text);
+}
+
+/* Hamburguesa */
+.navbar__toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-text);
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-base), opacity var(--transition-fast);
+}
+
+.navbar.is-open .navbar__toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar.is-open .navbar__toggle span:nth-child(2) {
+  opacity: 0;
+}
+.navbar.is-open .navbar__toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ============================================================
+   Botones
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.7rem 1.35rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  transition:
+    transform var(--transition-base),
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    color var(--transition-base);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primario: sólido claro, alto contraste */
+.btn--primary {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+.btn--primary:hover {
+  color: var(--color-bg);
+  box-shadow: 0 8px 30px var(--glow-strong);
+}
+
+/* Fantasma: contorno sutil */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+  color: var(--color-text);
+  border-color: var(--glow-strong);
+  background-color: var(--color-surface);
+}
+
+/* ============================================================
+   Hero (tipografía y detalles)
+   ============================================================ */
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  letter-spacing: var(--tracking-normal);
+}
+
+.hero__eyebrow::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background-color: var(--color-text-secondary);
+}
+
+.hero__title {
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+}
+
+.hero__title .accent {
+  color: var(--color-text-secondary);
+}
+
+.hero__lead {
+  max-width: 46ch;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-md);
+}
+
+/* ============================================================
+   Carnet 3D (IdCard) — elemento protagonista
+   ============================================================ */
+
+/* Escena: aporta la perspectiva 3D */
+.id-card-scene {
+  perspective: 1100px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.id-card {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      130% 90% at 50% 0%,
+      var(--color-surface-2) 0%,
+      var(--color-surface) 55%,
+      #101013 100%
+    );
+  box-shadow: var(--shadow-lg), inset 0 1px 0 var(--glow-soft);
+  transform-style: preserve-3d;
+  transition: box-shadow var(--transition-base);
+  will-change: transform;
+}
+
+.id-card.is-pressed {
+  box-shadow: var(--shadow-md), inset 0 1px 0 var(--glow-strong);
+}
+
+/* Capas con profundidad (parallax al inclinar) */
+.id-card > * {
+  transform-style: preserve-3d;
+}
+
+/* Sheen holográfico que sigue el cursor (--mx/--my los fija card-tilt.js) */
+.id-card__sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--sheen-opacity, 0);
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    var(--glow-strong) 0%,
+    transparent 45%
+  );
+  mix-blend-mode: screen;
+  transition: opacity var(--transition-slow);
+  transform: translateZ(1px);
+}
+
+/* Cabecera */
+.id-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  transform: translateZ(30px);
+}
+
+.id-card__id {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+}
+
+/* Foto (placeholder con iniciales hasta tener perfil.jpg) */
+.id-card__photo {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background:
+    radial-gradient(120% 120% at 30% 20%, var(--color-surface-2), var(--color-bg));
+  box-shadow: inset 0 0 0 1px var(--glow-soft), 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: translateZ(55px);
+}
+
+.id-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Iniciales del placeholder */
+.id-card__initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Datos */
+.id-card__info {
+  transform: translateZ(40px);
+}
+
+.id-card__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+}
+
+.id-card__role {
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Pie: chip decorativo + handle */
+.id-card__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateZ(25px);
+}
+
+.id-card__chip {
+  width: 2.6rem;
+  height: 1.9rem;
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(135deg, #3a3a42, #6a6a75 45%, #2b2b31 100%);
+  box-shadow: inset 0 0 0 1px var(--glow-soft);
+  position: relative;
+}
+
+/* Líneas del chip (estilo EMV) */
+.id-card__chip::before,
+.id-card__chip::after {
+  content: "";
+  position: absolute;
+  inset: 30% 15%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+.id-card__chip::after {
+  inset: 15% 40%;
+  border-width: 0 1px;
+}
+
+.id-card__handle {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================================
+   Encabezado de sección
+   ============================================================ */
+.section__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.section__title {
+  font-size: var(--fs-2xl);
+}
+
+/* ============================================================
+   Sobre mí
+   ============================================================ */
+.about__lead {
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+/* Términos clave resaltados dentro del párrafo */
+.about__lead strong {
+  color: var(--color-text);
+  font-weight: var(--fw-medium);
+}
+
+/* Callout de trabajo asistido por IA */
+.about__ai {
+  padding: var(--space-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 var(--glow-soft);
+}
+
+.about__ai-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+
+.about__ai-label span {
+  color: var(--color-text-secondary);
+}
+
+.about__ai p {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================================
+   Stack (chips)
+   ============================================================ */
+.stack__category {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.stack__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.chip:hover {
+  color: var(--color-text);
+  border-color: var(--glow-strong);
+  background-color: var(--color-surface-2);
+  transform: translateY(-2px);
+}
+
+/* Variante compacta (stack dentro de las tarjetas de proyecto) */
+.chip--sm {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.7rem;
+}
+
+/* ============================================================
+   Tarjeta de proyecto
+   ============================================================ */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Hover: leve elevación + borde que se ilumina (§5) */
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--glow-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* Media (captura o placeholder) */
+.project-card__media {
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(
+    120% 120% at 30% 20%,
+    var(--color-surface-2),
+    var(--color-bg)
+  );
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card__placeholder {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xl);
+  color: var(--color-text-secondary);
+  opacity: 0.35;
+}
+
+/* Cuerpo */
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex: 1;
+  padding: var(--space-lg);
+}
+
+.project-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.project-card__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+.project-card__desc {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+/* Pie alineado abajo (mantiene las tarjetas parejas) */
+.project-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: auto;
+  padding-top: var(--space-xs);
+}
+
+.project-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+/* Chips dentro de la tarjeta: estáticos y con contraste sobre la surface */
+.project-card__stack .chip {
+  background-color: var(--color-surface-2);
+}
+
+.project-card__stack .chip:hover {
+  transform: none;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  background-color: var(--color-surface-2);
+}
+
+.project-card__links {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.project-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.project-card__link:hover {
+  color: var(--color-text);
+}
+
+/* ============================================================
+   Badge de estado
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+}
+
+.badge--live::before {
+  background-color: var(--status-live);
+  box-shadow: 0 0 8px var(--status-live);
+}
+
+.badge--wip::before {
+  background-color: var(--status-wip);
+}
+
+/* ============================================================
+   Contacto
+   ============================================================ */
+.contact__lead {
+  max-width: 22ch;
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+}
+
+.contact__channel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  height: 100%;
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.contact__channel:hover {
+  transform: translateY(-2px);
+  border-color: var(--glow-strong);
+  background-color: var(--color-surface-2);
+}
+
+.contact__channel-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.contact__channel-value {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer {
+  margin-top: var(--section-gap);
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__copy {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.footer__links a {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.footer__links a:hover {
+  color: var(--color-text);
+}

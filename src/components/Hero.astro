@@ -1,0 +1,30 @@
+---
+/**
+ * Hero.astro — Sección de portada (dos columnas).
+ * Izquierda: rol, nombre (h1) y CTAs. Derecha: el carnet 3D.
+ * Ver CLAUDE.md §7 y §8. Sin tagline (por decisión de diseño).
+ */
+import IdCard from "./IdCard.astro";
+---
+
+<section class="hero" id="hero">
+  <div class="hero__inner container">
+    <div class="hero__content">
+      <p class="hero__eyebrow">Analista y Desarrollador de Software</p>
+
+      <h1 class="hero__title">
+        Manuel Andrés<br />
+        <span class="accent">Cárdenas Suárez</span>
+      </h1>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#projects">Ver proyectos</a>
+        <a class="btn btn--ghost" href="/cv.pdf" download>Descargar CV</a>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <IdCard />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+/* ============================================================
+   animations.css — Keyframes y animaciones (discretas)
+   Portafolio · Manuel Andrés Cárdenas Suárez
+   Movimiento sutil; nunca distrae del contenido. Ver CLAUDE.md §5.
+   ============================================================ */
+
+/* ---------- Flotación idle del carnet ---------- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* La escena flota suavemente cuando el usuario no la está inclinando.
+   card-tilt.js controla la inclinación del carnet interior por separado,
+   así que animar la escena no interfiere con el tilt. */
+.id-card-scene {
+  animation: float 6s var(--ease-in-out) infinite;
+}
+
+/* ---------- Aparición al hacer scroll (scroll-reveal.js, etapa futura) ---------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estado inicial de los elementos a revelar.
+   --reveal-delay permite escalonar (stagger) desde el HTML. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Estado revelado (lo añade IntersectionObserver) */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Respeta prefers-reduced-motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .id-card-scene {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

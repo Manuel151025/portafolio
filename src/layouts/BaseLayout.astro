@@ -1,0 +1,92 @@
+---
+/**
+ * BaseLayout.astro — Shell HTML del sitio.
+ * Contiene el <head> completo (SEO, Open Graph, fuentes) y un <slot />.
+ * Ver CLAUDE.md §6 y §9.
+ *
+ * Props (todas opcionales; con placeholders por defecto):
+ *   title       — <title> y og:title
+ *   description  — meta description y og:description
+ *   image        — imagen Open Graph (ruta absoluta desde /public)
+ */
+
+// Importación de estilos globales (el orden importa: tokens primero).
+import "../styles/variables.css";
+import "../styles/base.css";
+import "../styles/layout.css";
+import "../styles/components.css";
+import "../styles/animations.css";
+
+const SITE_URL = "https://manuelcardenas.online";
+
+const {
+  title = "Manuel Cárdenas Suárez — Analista y Desarrollador de Software",
+  description = "Portafolio de Manuel Andrés Cárdenas Suárez. Analista y Desarrollador de Software: aplicaciones web y móviles con arquitectura limpia y buenas prácticas.",
+  image = "/img/og-image.png",
+} = Astro.props;
+
+// URL canónica de la página actual (con fallback al dominio de producción).
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+const ogImage = new URL(image, Astro.site ?? SITE_URL);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO base -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Manuel Andrés Cárdenas Suárez" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="theme-color" content="#0A0A0B" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Manuel Cárdenas Suárez" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
+    <!-- Fuentes: preconnect + carga con font-display: swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+
+    <!-- Sin JS: muestra el contenido revelado (evita ocultarlo) -->
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <slot />
+
+    <script>
+      import "../scripts/scroll-reveal.js";
+    </script>
+  </body>
+</html>
