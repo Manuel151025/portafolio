@@ -1,16 +1,18 @@
 /**
- * card-tilt.js — Inclinación 3D del carnet siguiendo el mouse.
- * Responsabilidad única: efecto tilt/parallax + sheen holográfico.
+ * card-tilt.js — Inclinación 3D de la credencial siguiendo el mouse.
+ * Responsabilidad única: efecto tilt/parallax + sheen holográfico,
+ * coordinado con el balanceo en reposo (CSS animation "sway").
  *
- * - Calcula rotateX/rotateY según la posición del cursor sobre la tarjeta.
- * - Suaviza el movimiento con requestAnimationFrame (lerp).
- * - Mueve el sheen (--mx/--my) para el reflejo holográfico.
- * - Reacciona al click con un "press".
+ * - En reposo, la tarjeta se balancea sola (animación CSS).
+ * - Al entrar el cursor: se PAUSA el balanceo y el tilt toma el control.
+ * - Al salir: la tarjeta vuelve al centro y se REANUDA el balanceo.
+ * - Suaviza el tilt con requestAnimationFrame (lerp) y mueve el sheen.
  * - Ignora dispositivos táctiles y respeta prefers-reduced-motion.
  * Ver CLAUDE.md §4 y §5.
  */
 
 const MAX_TILT = 12; // grados máximos de inclinación
+const BASE_ROTATE = -4; // inclinación base de la credencial colgada
 const EASE = 0.15; // suavizado del lerp (0..1)
 
 const prefersReducedMotion = window.matchMedia(
@@ -30,15 +32,20 @@ function initCardTilt(scene) {
   const render = () => {
     currentX += (targetX - currentX) * EASE;
     currentY += (targetY - currentY) * EASE;
-    card.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+    card.style.transform = `rotate(${BASE_ROTATE}deg) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
 
     const settled =
       Math.abs(targetX - currentX) < 0.05 &&
       Math.abs(targetY - currentY) < 0.05;
 
     if (settled) {
-      // Fija el valor final y detiene el bucle
-      card.style.transform = `rotateX(${targetX}deg) rotateY(${targetY}deg)`;
+      if (targetX === 0 && targetY === 0) {
+        // De vuelta al reposo: devuelve el control al balanceo (CSS).
+        card.style.transform = "";
+        card.style.animationPlayState = "";
+      } else {
+        card.style.transform = `rotate(${BASE_ROTATE}deg) rotateX(${targetX}deg) rotateY(${targetY}deg)`;
+      }
       rafId = null;
     } else {
       rafId = requestAnimationFrame(render);
@@ -49,9 +56,17 @@ function initCardTilt(scene) {
     if (rafId === null) rafId = requestAnimationFrame(render);
   };
 
-  const onMove = (event) => {
-    // Ignora toques: en móvil la tarjeta permanece estática
+  const onEnter = (event) => {
     if (event.pointerType === "touch") return;
+    // Pausa el balanceo mientras el cursor controla la tarjeta.
+    card.style.animationPlayState = "paused";
+  };
+
+  const onMove = (event) => {
+    // Ignora toques: en móvil la tarjeta permanece con su balanceo.
+    if (event.pointerType === "touch") return;
+
+    card.style.animationPlayState = "paused";
 
     const rect = card.getBoundingClientRect();
     const px = (event.clientX - rect.left) / rect.width; // 0..1
@@ -80,6 +95,7 @@ function initCardTilt(scene) {
     window.setTimeout(() => card.classList.remove("is-pressed"), 200);
   };
 
+  scene.addEventListener("pointerenter", onEnter);
   scene.addEventListener("pointermove", onMove);
   scene.addEventListener("pointerleave", onLeave);
   scene.addEventListener("click", onClick);

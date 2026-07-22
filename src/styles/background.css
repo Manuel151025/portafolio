@@ -1,0 +1,133 @@
+/* ============================================================
+   background.css — Fondo con textura reactiva (3 capas)
+   Portafolio · Manuel Andrés Cárdenas Suárez
+   Puramente background-image sobre divs: cero elementos por celda.
+   Sin backdrop-filter. Ver CLAUDE.md §5 y §9.
+   ============================================================ */
+
+/* Contenedor fijo detrás de todo el contenido. No captura eventos. */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Tamaño de celda de la grilla (fuente única para ambas capas) */
+  --grid-size: 48px;
+}
+
+.bg__grid,
+.bg__spotlight,
+.bg__grain {
+  position: absolute;
+  inset: 0;
+}
+
+/* ============================================================
+   CAPA 1 — Grilla base (tenue, siempre visible)
+   Dos repeating-linear-gradient (líneas de 1px en ambos ejes).
+   ============================================================ */
+.bg__grid {
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    );
+  /* Desvanece la grilla hacia los bordes (que no llegue plana a las esquinas) */
+  -webkit-mask-image: radial-gradient(
+    ellipse at center,
+    #000 0%,
+    #000 45%,
+    transparent 90%
+  );
+  mask-image: radial-gradient(
+    ellipse at center,
+    #000 0%,
+    #000 45%,
+    transparent 90%
+  );
+}
+
+/* ============================================================
+   CAPA 2 — Grilla iluminada (revelada por el cursor)
+   Misma grilla, líneas más brillantes, descubierta por una máscara
+   radial centrada en --mx/--my (las fija grid-spotlight.js).
+   ============================================================ */
+.bg__spotlight {
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.14) 0,
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.14) 0,
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    );
+  /* Máscara radial de ~280px con bordes suaves (varias paradas) */
+  -webkit-mask-image: radial-gradient(
+    circle 280px at var(--mx, 50%) var(--my, 50%),
+    #000 0%,
+    rgba(0, 0, 0, 0.85) 22%,
+    rgba(0, 0, 0, 0.4) 52%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 280px at var(--mx, 50%) var(--my, 50%),
+    #000 0%,
+    rgba(0, 0, 0, 0.85) 22%,
+    rgba(0, 0, 0, 0.4) 52%,
+    transparent 100%
+  );
+  /* Oculta hasta el primer movimiento del cursor */
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+/* grid-spotlight.js añade .cursor-active al <body> en el 1er movimiento */
+body.cursor-active .bg__spotlight {
+  opacity: 1;
+}
+
+/* ============================================================
+   CAPA 3 — Grain / noise (estático, sin animación)
+   SVG feTurbulence embebido como data URI.
+   ============================================================ */
+.bg__grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+/* ============================================================
+   Accesibilidad — sin movimiento reactivo si el usuario lo prefiere
+   (grid-spotlight.js tampoco se registra en ese caso)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .bg__spotlight {
+    transition: none;
+  }
+}
+
+/* En móvil / puntero grueso no hay cursor: oculta la capa iluminada
+   (solo se ven grilla base + grain). */
+@media (max-width: 767.98px), (pointer: coarse) {
+  .bg__spotlight {
+    display: none;
+  }
+}

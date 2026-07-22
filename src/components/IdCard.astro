@@ -1,17 +1,26 @@
 ---
 /**
- * IdCard.astro — Carnet 3D (elemento protagonista del Hero).
+ * IdCard.astro — Credencial colgante (elemento protagonista del Hero).
  * Solo HTML (template). La interactividad vive en scripts/card-tilt.js
- * y los estilos en styles/components.css. Ver CLAUDE.md §5 y §8.
+ * (tilt 3D + coordinación con el balanceo) y los estilos en components.css.
+ * El balanceo en reposo es CSS (animación sway). Ver CLAUDE.md §5 y §8.
  *
  * Nota: la foto es un placeholder con iniciales. Para usar la foto real,
  * añade public/img/perfil.jpg y sustituye <span class="id-card__initials">
  * por <img src="/img/perfil.jpg" alt="Manuel Cárdenas" width="..." height="..." />.
  */
 const initials = "MC";
+const domain = "manuelcardenas.online";
 ---
 
 <div class="id-card-scene">
+  <!-- Cordón (lanyard): dos cintas en V que se unen en el clip -->
+  <div class="lanyard" aria-hidden="true">
+    <span class="lanyard__strap lanyard__strap--left">{domain} · {domain}</span>
+    <span class="lanyard__strap lanyard__strap--right">{domain} · {domain}</span>
+    <span class="lanyard__clip"></span>
+  </div>
+
   <article class="id-card" data-tilt aria-label="Carnet de desarrollador">
     <div class="id-card__sheen" aria-hidden="true"></div>
 

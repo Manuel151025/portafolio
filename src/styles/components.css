@@ -7,21 +7,22 @@
 /* ============================================================
    Navbar
    ============================================================ */
-.navbar {
-  transition:
-    background-color var(--transition-base),
-    border-color var(--transition-base),
-    backdrop-filter var(--transition-base);
-  border-bottom: 1px solid transparent;
-}
-
-/* Blur + fondo al hacer scroll (lo activa navbar.js) */
-.navbar.is-scrolled,
-.navbar.is-open {
-  background-color: rgba(10, 10, 11, 0.72);
+/* Píldora flotante: fondo semitransparente muy oscuro + borde sutil */
+.navbar__inner {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  background-color: rgba(10, 10, 11, 0.6);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom-color: var(--color-border);
+  transition:
+    background-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Al hacer scroll: más sólida + sombra proyectada (lo activa navbar.js) */
+.navbar.is-scrolled .navbar__inner {
+  background-color: rgba(10, 10, 11, 0.82);
+  box-shadow: var(--shadow-lg);
 }
 
 .navbar__brand {
@@ -44,10 +45,12 @@
 /* En móvil, el panel desplegable necesita fondo propio */
 @media (max-width: 767.98px) {
   .navbar__menu {
-    background-color: rgba(10, 10, 11, 0.96);
+    margin-top: var(--space-xs);
+    background-color: rgba(10, 10, 11, 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--color-border);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
     /* Oculto por defecto; se revela con .is-open */
     opacity: 0;
     visibility: hidden;
@@ -66,6 +69,7 @@
 }
 
 .navbar__menu a {
+  position: relative;
   display: block;
   padding: var(--space-xs) var(--space-2xs);
   font-size: var(--fs-sm);
@@ -74,6 +78,29 @@
 }
 
 .navbar__menu a:hover {
+  color: var(--color-text);
+}
+
+/* Subrayado que crece de izquierda a derecha (hover / sección activa) */
+.navbar__menu a::after {
+  content: "";
+  position: absolute;
+  left: var(--space-2xs);
+  right: var(--space-2xs);
+  bottom: 2px;
+  height: 1px;
+  background-color: var(--color-text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.navbar__menu a:hover::after,
+.navbar__menu a.is-active::after {
+  transform: scaleX(1);
+}
+
+.navbar__menu a.is-active {
   color: var(--color-text);
 }
 
@@ -156,6 +183,33 @@
 /* ============================================================
    Hero (tipografía y detalles)
    ============================================================ */
+
+/* Badge de disponibilidad (único punto de color del sitio, discreto) */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.hero__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-live);
+  box-shadow: 0 0 8px var(--status-live);
+  /* pulso sutil (animations.css) */
+  animation: pulse-dot 2s var(--ease-in-out) infinite;
+}
+
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -171,6 +225,9 @@
   width: 1.5rem;
   height: 1px;
   background-color: var(--color-text-secondary);
+  transform-origin: left;
+  /* Crece de izquierda a derecha al cargar (ver animations.css) */
+  animation: grow-line 0.6s var(--ease-out) both;
 }
 
 .hero__title {
@@ -188,26 +245,137 @@
   font-size: var(--fs-md);
 }
 
+/* Indicador de scroll (abajo, centrado). Lo oculta hero-scroll.js */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+  transition: opacity var(--transition-base);
+  animation: scroll-bounce 1.8s var(--ease-in-out) infinite;
+}
+
+.hero__scroll.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero__scroll-arrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* En móvil el hero suele desbordar 100vh (carnet + contenido apilados):
+   el indicador quedaría fuera de vista, así que se oculta. */
+@media (max-width: 767.98px) {
+  .hero__scroll {
+    display: none;
+  }
+}
+
 /* ============================================================
    Carnet 3D (IdCard) — elemento protagonista
    ============================================================ */
 
-/* Escena: aporta la perspectiva 3D */
+/* Escena: aporta la perspectiva 3D y apila el cordón sobre la tarjeta */
 .id-card-scene {
   perspective: 1100px;
   width: 100%;
   max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Cordón (lanyard) ---------- */
+.lanyard {
+  position: relative;
+  width: 100%;
+  height: 4.5rem;
+  /* El clip se apoya sobre el borde superior del carnet */
+  margin-bottom: -0.5rem;
+  z-index: 2;
+}
+
+.lanyard__strap {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  width: 0.75rem;
+  height: 100%;
+  border-radius: 3px;
+  transform-origin: bottom center;
+  background: linear-gradient(90deg, #131317, #2a2a31 50%, #101014);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  /* Texto vertical repetido del dominio, muy sutil */
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 6px;
+  line-height: 0.75rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.16);
+  white-space: nowrap;
+  text-align: center;
+  overflow: hidden;
+}
+
+.lanyard__strap--left {
+  transform: translateX(-50%) rotate(-24deg);
+}
+
+.lanyard__strap--right {
+  transform: translateX(-50%) rotate(24deg);
+}
+
+/* Clip metálico donde se unen las cintas */
+.lanyard__clip {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.25rem;
+  height: 1.1rem;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #d9d9dd 0%, #9a9aa2 45%, #5c5c63 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Ranura del clip (donde engancha el carnet) */
+.lanyard__clip::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .id-card {
   position: relative;
+  width: 100%;
   aspect-ratio: 5 / 7;
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  /* Bordes más marcados + más radio: se lee como objeto físico */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(
       130% 90% at 50% 0%,
@@ -215,7 +383,12 @@
       var(--color-surface) 55%,
       #101013 100%
     );
-  box-shadow: var(--shadow-lg), inset 0 1px 0 var(--glow-soft);
+  /* Sombra proyectada suave hacia abajo */
+  box-shadow:
+    0 28px 45px -12px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 var(--glow-soft);
+  /* Pivota desde el clip (arriba) para el balanceo y el tilt */
+  transform-origin: top center;
   transform-style: preserve-3d;
   transition: box-shadow var(--transition-base);
   will-change: transform;
@@ -471,6 +644,7 @@
 .project-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: hidden;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -528,6 +702,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--space-sm);
 }
 
@@ -595,6 +770,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  flex-shrink: 0;
   padding: 0.25rem 0.6rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -664,7 +840,8 @@
 }
 
 .contact__channel-value {
-  font-size: var(--fs-sm);
+  /* Ligeramente más pequeño para que el email largo quepa mejor */
+  font-size: 0.8125rem;
   color: var(--color-text);
   overflow-wrap: anywhere;
 }

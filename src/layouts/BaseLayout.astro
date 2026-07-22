@@ -16,6 +16,9 @@ import "../styles/base.css";
 import "../styles/layout.css";
 import "../styles/components.css";
 import "../styles/animations.css";
+import "../styles/background.css";
+
+import Background from "../components/Background.astro";
 
 const SITE_URL = "https://manuelcardenas.online";
 
@@ -83,10 +86,12 @@ const ogImage = new URL(image, Astro.site ?? SITE_URL);
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
+    <Background />
     <slot />
 
     <script>
       import "../scripts/scroll-reveal.js";
+      import "../scripts/grid-spotlight.js";
     </script>
   </body>
 </html>

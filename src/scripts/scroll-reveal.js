@@ -1,11 +1,13 @@
 /**
  * scroll-reveal.js — Aparición de elementos al entrar en viewport.
- * Responsabilidad única: observar los elementos .reveal y añadirles
- * .is-visible (fade + subida sutil) cuando entran en pantalla.
+ * Responsabilidad única: observar los elementos a revelar y añadirles
+ * .is-visible cuando entran en pantalla.
+ *   - .reveal       → fade + subida sutil
+ *   - .reveal-wipe  → descubierto tipo "wipe" (títulos de sección)
  * Ver CLAUDE.md §5.
  */
 
-const reveals = document.querySelectorAll(".reveal");
+const reveals = document.querySelectorAll(".reveal, .reveal-wipe");
 
 if (reveals.length) {
   const prefersReducedMotion = window.matchMedia(

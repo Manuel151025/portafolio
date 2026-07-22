@@ -3,6 +3,7 @@
  * Responsabilidad única: comportamiento del navbar
  *   1) Fondo con blur al hacer scroll.
  *   2) Menú desplegable en móvil (accesible).
+ *   3) Scroll-spy: marca el link de la sección visible (.is-active).
  * Ver CLAUDE.md §4 y §5.
  */
 
@@ -40,5 +41,35 @@ if (navbar) {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
     });
+  }
+
+  /* ---------- 3) Scroll-spy: link de la sección visible ---------- */
+  if (menu && "IntersectionObserver" in window) {
+    const menuLinks = Array.from(menu.querySelectorAll("a"));
+    const sections = menuLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    if (sections.length) {
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            menuLinks.forEach((link) => {
+              link.classList.toggle(
+                "is-active",
+                link.getAttribute("href") === `#${id}`,
+              );
+            });
+          });
+        },
+        // Banda estrecha en el centro del viewport: activa la sección
+        // que cruza el medio de la pantalla.
+        { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+      );
+
+      sections.forEach((section) => spy.observe(section));
+    }
   }
 }

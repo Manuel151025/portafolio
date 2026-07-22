@@ -1,0 +1,22 @@
+---
+/**
+ * Background.astro — Fondo con textura reactiva.
+ * Se monta UNA sola vez en BaseLayout, antes del <slot />.
+ *
+ * Solo capas de background-image sobre 3 divs (CERO elementos por celda,
+ * innegociable por rendimiento). La reactividad vive en
+ * scripts/grid-spotlight.js y los estilos en styles/background.css.
+ * Ver CLAUDE.md §5 y §9 (meta Lighthouse 90-100).
+ *
+ * Capas (de atrás hacia adelante; el color base #0A0A0B lo pone <body>):
+ *   .bg__grid       → grilla técnica tenue, siempre visible
+ *   .bg__spotlight  → grilla iluminada revelada por el cursor (solo desktop)
+ *   .bg__grain      → grain/noise sutil, estático
+ */
+---
+
+<div class="bg" aria-hidden="true">
+  <div class="bg__grid"></div>
+  <div class="bg__spotlight"></div>
+  <div class="bg__grain"></div>
+</div>
