@@ -1,9 +1,16 @@
 ---
 /**
- * Contact.astro — Sección de contacto.
- * CTA + canales (email, GitHub, LinkedIn, teléfono). Datos en el
- * frontmatter (separados del template). Contenido según CLAUDE.md §8.
+ * Contact.astro — Contacto: formulario + canales directos.
+ * El formulario se envía con Web3Forms (servicio gratuito, sin backend);
+ * la lógica está en scripts/contact-form.js. Ver CLAUDE.md §7 y §8.
+ *
+ * ⚠️ CONFIGURACIÓN: reemplaza WEB3FORMS_KEY por tu access key gratuita.
+ *    La obtienes en https://web3forms.com poniendo tu correo (30 s).
+ *    Hasta entonces, el formulario mostrará un error al enviar (los
+ *    canales directos de la derecha siguen funcionando).
  */
+const WEB3FORMS_KEY = "170da6a0-f313-46e2-9b78-a4ac222794ee";
+
 const channels = [
   {
     label: "Email",
@@ -40,16 +47,72 @@ const channels = [
     </header>
 
     <div class="contact__inner">
-      <div class="contact__cta reveal">
+      <div class="contact__form-col reveal">
         <p class="contact__lead">
           ¿Tienes un proyecto en mente o una vacante que encaje? Hablemos.
         </p>
-        <a
-          class="btn btn--primary"
-          href="mailto:Manuelcardenassuarez2005@gmail.com"
-        >
-          Escríbeme
-        </a>
+
+        <form class="contact-form" id="contact-form">
+          <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+          <input
+            type="hidden"
+            name="subject"
+            value="Nuevo mensaje desde el portafolio"
+          />
+          <input
+            type="hidden"
+            name="from_name"
+            value="Portafolio · manuelcardenas.online"
+          />
+          <!-- Honeypot antispam (oculto para personas) -->
+          <input
+            type="checkbox"
+            name="botcheck"
+            class="visually-hidden"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
+
+          <div class="field">
+            <label for="cf-name">Nombre</label>
+            <input
+              id="cf-name"
+              type="text"
+              name="name"
+              required
+              autocomplete="name"
+              placeholder="Tu nombre"
+            />
+          </div>
+
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input
+              id="cf-email"
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="tucorreo@ejemplo.com"
+            />
+          </div>
+
+          <div class="field">
+            <label for="cf-message">Mensaje</label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="5"
+              required
+              placeholder="Cuéntame en qué puedo ayudarte…"></textarea>
+          </div>
+
+          <button class="btn btn--primary contact-form__submit" type="submit">
+            Enviar mensaje
+          </button>
+          <p class="contact-form__status" role="status" aria-live="polite"></p>
+        </form>
       </div>
 
       <ul class="contact__channels">
@@ -76,3 +139,7 @@ const channels = [
     </div>
   </div>
 </section>
+
+<script>
+  import "../scripts/contact-form.js";
+</script>
