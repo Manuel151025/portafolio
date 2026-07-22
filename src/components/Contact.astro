@@ -1,40 +1,40 @@
 ---
 /**
- * Contact.astro — Contacto: formulario + canales directos.
+ * Contact.astro — Contacto: formulario + iconos de redes.
  * El formulario se envía con Web3Forms (servicio gratuito, sin backend);
- * la lógica está en scripts/contact-form.js. Ver CLAUDE.md §7 y §8.
+ * la lógica y validación están en scripts/contact-form.js. Los canales son
+ * iconos de marca monocromáticos (simple-icons). Ver CLAUDE.md §7 y §8.
  *
- * ⚠️ CONFIGURACIÓN: reemplaza WEB3FORMS_KEY por tu access key gratuita.
- *    La obtienes en https://web3forms.com poniendo tu correo (30 s).
- *    Hasta entonces, el formulario mostrará un error al enviar (los
- *    canales directos de la derecha siguen funcionando).
+ * ⚠️ WEB3FORMS_KEY: tu access key gratuita de https://web3forms.com
  */
+import { Icon } from "astro-icon/components";
+
 const WEB3FORMS_KEY = "170da6a0-f313-46e2-9b78-a4ac222794ee";
 
-const channels = [
+const socials = [
   {
-    label: "Email",
-    value: "Manuelcardenassuarez2005@gmail.com",
+    label: "Escríbeme por correo",
+    icon: "simple-icons:gmail",
     href: "mailto:Manuelcardenassuarez2005@gmail.com",
     external: false,
   },
   {
     label: "GitHub",
-    value: "@Manuel151025",
+    icon: "simple-icons:github",
     href: "https://github.com/Manuel151025",
     external: true,
   },
   {
     label: "LinkedIn",
-    value: "in/manuel-cardenas",
+    icon: "simple-icons:linkedin",
     href: "https://www.linkedin.com/in/manuel-cardenas-89b03b424",
     external: true,
   },
   {
-    label: "Teléfono",
-    value: "+57 320 989 1830",
-    href: "tel:+573209891830",
-    external: false,
+    label: "WhatsApp",
+    icon: "simple-icons:whatsapp",
+    href: "https://wa.me/573209891830",
+    external: true,
   },
 ];
 ---
@@ -56,11 +56,6 @@ const channels = [
           <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
           <input
             type="hidden"
-            name="subject"
-            value="Nuevo mensaje desde el portafolio"
-          />
-          <input
-            type="hidden"
             name="from_name"
             value="Portafolio · manuelcardenas.online"
           />
@@ -74,27 +69,43 @@ const channels = [
             aria-hidden="true"
           />
 
-          <div class="field">
-            <label for="cf-name">Nombre</label>
-            <input
-              id="cf-name"
-              type="text"
-              name="name"
-              required
-              autocomplete="name"
-              placeholder="Tu nombre"
-            />
+          <div class="form-row">
+            <div class="field">
+              <label for="cf-name">Nombre</label>
+              <input
+                id="cf-name"
+                type="text"
+                name="name"
+                required
+                minlength="2"
+                maxlength="80"
+                autocomplete="name"
+                placeholder="Tu nombre"
+              />
+            </div>
+
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input
+                id="cf-email"
+                type="email"
+                name="email"
+                required
+                maxlength="120"
+                autocomplete="email"
+                placeholder="tucorreo@ejemplo.com"
+              />
+            </div>
           </div>
 
           <div class="field">
-            <label for="cf-email">Email</label>
+            <label for="cf-subject">Asunto</label>
             <input
-              id="cf-email"
-              type="email"
-              name="email"
-              required
-              autocomplete="email"
-              placeholder="tucorreo@ejemplo.com"
+              id="cf-subject"
+              type="text"
+              name="subject"
+              maxlength="100"
+              placeholder="¿De qué se trata?"
             />
           </div>
 
@@ -103,9 +114,12 @@ const channels = [
             <textarea
               id="cf-message"
               name="message"
-              rows="5"
               required
+              minlength="10"
+              maxlength="1000"
+              rows="5"
               placeholder="Cuéntame en qué puedo ayudarte…"></textarea>
+            <span class="field__counter" aria-hidden="true">0 / 1000</span>
           </div>
 
           <button class="btn btn--primary contact-form__submit" type="submit">
@@ -115,27 +129,31 @@ const channels = [
         </form>
       </div>
 
-      <ul class="contact__channels">
-        {
-          channels.map((channel, i) => (
-            <li class="reveal" style={`--reveal-delay: ${i * 70}ms`}>
-              <a
-                class="contact__channel"
-                href={channel.href}
-                {...(channel.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                <span class="contact__channel-label">{channel.label}</span>
-                <span class="contact__channel-value">
-                  {channel.value}
-                  {channel.external && <span aria-hidden="true"> ↗</span>}
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="contact__connect reveal">
+        <p class="contact__connect-label">Conéctate</p>
+        <p class="contact__connect-note">
+          Escríbeme por el canal que prefieras.
+        </p>
+        <ul class="social">
+          {
+            socials.map((s) => (
+              <li>
+                <a
+                  class="social__link"
+                  href={s.href}
+                  aria-label={s.label}
+                  title={s.label}
+                  {...(s.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  <Icon name={s.icon} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </div>
 </section>

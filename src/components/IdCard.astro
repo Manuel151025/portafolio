@@ -5,12 +5,19 @@
  * (tilt 3D + coordinación con el balanceo) y los estilos en components.css.
  * El balanceo en reposo es CSS (animación sway). Ver CLAUDE.md §5 y §8.
  *
- * Nota: la foto es un placeholder con iniciales. Para usar la foto real,
- * añade public/img/perfil.jpg y sustituye <span class="id-card__initials">
- * por <img src="/img/perfil.jpg" alt="Manuel Cárdenas" width="..." height="..." />.
+ * La foto (public/img/perfil.webp, 3:4) usa loading=eager + fetchpriority
+ * por ser parte del LCP. El QR se genera en build (qrcode) y apunta a GitHub.
  */
-const initials = "MC";
+import QRCode from "qrcode";
+
 const domain = "manuelcardenas.online";
+const githubUrl = "https://github.com/Manuel151025";
+const qrSvg = await QRCode.toString(githubUrl, {
+  type: "svg",
+  margin: 0,
+  errorCorrectionLevel: "M",
+  color: { dark: "#0a0a0b", light: "#f5f5f7" },
+});
 ---
 
 <div class="id-card-scene">
@@ -30,7 +37,15 @@ const domain = "manuelcardenas.online";
     </header>
 
     <div class="id-card__photo">
-      <span class="id-card__initials" aria-hidden="true">{initials}</span>
+      <img
+        src="/img/perfil.webp"
+        alt="Manuel Andrés Cárdenas Suárez"
+        width="900"
+        height="1200"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
     </div>
 
     <div class="id-card__info">
@@ -39,12 +54,36 @@ const domain = "manuelcardenas.online";
     </div>
 
     <footer class="id-card__footer">
-      <span class="id-card__chip" aria-hidden="true"></span>
+      <button
+        class="id-card__qr"
+        type="button"
+        aria-label="Ampliar el QR de mi GitHub"
+        set:html={qrSvg}
+      ></button>
       <span class="id-card__handle">@Manuel151025</span>
     </footer>
   </article>
 </div>
 
+<dialog class="tech-dialog qr-dialog" id="qr-dialog" aria-labelledby="qr-dialog-title">
+  <div class="tech-dialog__inner qr-dialog__inner">
+    <button class="tech-dialog__close" type="button" aria-label="Cerrar">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h3 class="tech-dialog__title" id="qr-dialog-title">Escanea mi GitHub</h3>
+    <div class="qr-dialog__code" set:html={qrSvg}></div>
+    <a
+      class="qr-dialog__link"
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      github.com/Manuel151025 <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</dialog>
+
 <script>
   import "../scripts/card-tilt.js";
+  import "../scripts/qr-modal.js";
 </script>

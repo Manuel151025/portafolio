@@ -185,3 +185,18 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo`, `demo
 - [ ] CV en PDF (`public/cv.pdf`).
 - [ ] Capturas de proyectos (`public/img/proyectos/`).
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cambiar badge a "Producción" y agregar demo.
+
+
+## Infraestructura (IMPORTANTE)
+
+El VPS es COMPARTIDO. nginx corre fuera de Docker y ocupa los
+puertos 80/443; Traefik escucha en el 9080.
+
+- En Dokploy los dominios van con HTTPS **OFF** (Certificate: None).
+  Activarlo rompe el sitio con un bucle de redirecciones.
+- El SSL lo emite certbot sobre el nginx del host, igual que el resto
+  de subdominios del servidor.
+- Server block del sitio: /etc/nginx/sites-available/manuelcardenas.online
+  → proxy_pass a localhost:9080 con Host header passthrough.
+- Sudo limitado: nginx -t, reload/restart nginx, nano sobre
+  sites-available/*, ln -s a sites-enabled/*. certbot NO está permitido.

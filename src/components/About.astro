@@ -1,9 +1,33 @@
 ---
 /**
  * About.astro — Sección "Sobre mí".
- * Perfil individual + bloque de trabajo asistido por IA.
- * Contenido literal según CLAUDE.md §8.
+ * Perfil + bloque de trabajo asistido por IA + áreas de enfoque.
+ * Contenido literal según CLAUDE.md §8; las áreas resumen su stack real.
  */
+import { Icon } from "astro-icon/components";
+
+const focus = [
+  {
+    icon: "simple-icons:php",
+    title: "Aplicaciones web",
+    desc: "Backend con PHP 8 y MySQL 8, APIs REST y frontend responsivo con Bootstrap.",
+  },
+  {
+    icon: "simple-icons:kotlin",
+    title: "Móvil nativo",
+    desc: "Android con Kotlin y Jetpack Compose; apps offline-first y Clean Architecture.",
+  },
+  {
+    icon: "simple-icons:docker",
+    title: "DevOps & despliegue",
+    desc: "Docker, Dokploy y Nginx sobre Linux: del código a producción sin fricción.",
+  },
+  {
+    icon: "simple-icons:git",
+    title: "Buenas prácticas",
+    desc: "Arquitectura limpia, código mantenible y control de versiones con Git.",
+  },
+];
 ---
 
 <section class="section about" id="about">
@@ -37,5 +61,19 @@
         </p>
       </aside>
     </div>
+
+    <ul class="about__focus">
+      {
+        focus.map((item, i) => (
+          <li class="about__focus-item reveal" style={`--reveal-delay: ${i * 60}ms`}>
+            <span class="about__focus-icon" aria-hidden="true">
+              <Icon name={item.icon} />
+            </span>
+            <h3 class="about__focus-title">{item.title}</h3>
+            <p class="about__focus-desc">{item.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
