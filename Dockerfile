@@ -11,7 +11,9 @@ WORKDIR /app
 # Instala dependencias primero (mejor uso de la cache de capas:
 # solo se reinstala si cambian package.json / package-lock.json).
 COPY package.json package-lock.json ./
-RUN npm ci
+# --omit=dev: no instala devDependencies (sharp, @types) que no se usan en el
+# build de Astro; evita descargas pesadas/fallos en Alpine.
+RUN npm ci --omit=dev
 
 # Copia el código y compila el sitio estático → /app/dist
 COPY . .

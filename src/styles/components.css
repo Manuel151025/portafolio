@@ -687,6 +687,7 @@
    ============================================================ */
 .stack__category {
   display: block;
+  text-align: center;
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
@@ -695,9 +696,10 @@
   color: var(--color-text-secondary);
 }
 
-/* Celda de la grilla: deja que el botón llene el alto de la fila */
+/* Cada tarjeta con ancho fijo para que las filas puedan centrarse */
 .tech-item {
   display: flex;
+  flex: 0 0 116px;
 }
 
 /* Tarjeta de una tecnología (botón: abre el modal con el resumen) */
@@ -824,18 +826,42 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Media (captura o placeholder) */
+/* Media (captura o placeholder). Es un botón: abre el modal de detalle. */
 .project-card__media {
+  position: relative;
+  width: 100%;
   aspect-ratio: 16 / 9;
   display: grid;
   place-items: center;
   overflow: hidden;
+  cursor: pointer;
   background: radial-gradient(
     120% 120% at 30% 20%,
     var(--color-surface-2),
     var(--color-bg)
   );
   border-bottom: 1px solid var(--color-border);
+}
+
+/* Overlay "Ver detalle" al pasar el cursor por la media */
+.project-card__zoom {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text);
+  background-color: rgba(10, 10, 11, 0.5);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.project-card__media:hover .project-card__zoom,
+.project-card__media:focus-visible .project-card__zoom {
+  opacity: 1;
 }
 
 .project-card__media img {
@@ -1402,4 +1428,242 @@ html.intro-open {
 
 .qr-dialog__link:hover {
   color: var(--color-text);
+}
+
+/* ============================================================
+   Visor de CV (<dialog> nativo con PDF)
+   ============================================================ */
+.cv-dialog {
+  /* Centrado: el reset global pone margin:0, hay que reponerlo */
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: calc(100% - 2rem);
+  max-width: 60rem;
+  height: calc(100dvh - 3rem);
+  max-height: calc(100dvh - 3rem);
+  padding: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.cv-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-dialog::backdrop {
+  background-color: rgba(10, 10, 11, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.cv-dialog__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cv-dialog__title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.cv-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.cv-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.cv-btn:hover {
+  color: var(--color-text);
+  border-color: var(--glow-strong);
+  background-color: var(--color-surface-2);
+}
+
+.cv-btn--close {
+  color: var(--color-text);
+  border-color: var(--glow-strong);
+}
+
+.cv-dialog__viewer {
+  flex: 1;
+  min-height: 0;
+  background-color: var(--color-surface-2);
+}
+
+.cv-dialog__frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ============================================================
+   Botón flotante "volver arriba"
+   ============================================================ */
+.to-top {
+  position: fixed;
+  right: var(--container-pad);
+  bottom: var(--container-pad);
+  z-index: var(--z-navbar);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  background-color: rgba(20, 20, 23, 0.92);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base),
+    visibility var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.to-top:hover {
+  border-color: var(--glow-strong);
+  box-shadow: 0 0 18px var(--glow-soft);
+}
+
+/* ============================================================
+   Página 404
+   ============================================================ */
+.notfound {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.notfound__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.notfound__code {
+  font-family: var(--font-mono);
+  font-size: clamp(4rem, 20vw, 8rem);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: var(--color-text);
+  opacity: 0.14;
+}
+
+.notfound__title {
+  font-size: var(--fs-2xl);
+}
+
+.notfound__text {
+  max-width: 44ch;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================================
+   Modal de detalle de proyecto (reutiliza .tech-dialog)
+   ============================================================ */
+.project-dialog {
+  max-width: 46rem;
+  overflow-y: auto;
+}
+
+.project-dialog__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.project-dialog__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-right: 2.25rem;
+}
+
+.project-dialog__shots {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 620px) {
+  .project-dialog__shots.has-mobile {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+}
+
+.project-dialog__shot {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.project-dialog__shot--mobile {
+  max-width: 150px;
+  justify-self: center;
+}
+
+.project-dialog__desc {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+.project-dialog__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.project-dialog__stack .chip {
+  background-color: var(--color-surface-2);
+}
+
+.project-dialog__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-2xs);
 }

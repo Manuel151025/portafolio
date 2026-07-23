@@ -1,0 +1,20 @@
+---
+/**
+ * 404.astro — Página de error personalizada, con el estilo del sitio.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 — Página no encontrada · Manuel Cárdenas">
+  <main id="main" class="notfound">
+    <div class="container notfound__inner">
+      <p class="notfound__code">404</p>
+      <h1 class="notfound__title">Esta página no existe</h1>
+      <p class="notfound__text">
+        El enlace que seguiste no lleva a ningún lado, o la página se movió de
+        sitio. Volvamos a lo importante.
+      </p>
+      <a class="btn btn--primary" href="/">Volver al inicio</a>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,19 +1,31 @@
 ---
 /**
- * ProjectCard.astro — Tarjeta de proyecto reutilizable (se define UNA vez).
- * Recibe un objeto `proyecto` (ver data/projects.js) y lo renderiza.
- * Solo HTML, sin JS. Ver CLAUDE.md §4 y §5.
+ * ProjectCard.astro — Tarjeta de proyecto + su modal de detalle.
+ * Recibe un objeto `proyecto` (ver data/projects.js). La media y el botón
+ * "Detalles" abren un <dialog> con la info completa. La lógica de apertura
+ * vive en scripts/project-modal.js. Ver CLAUDE.md §4 y §5.
  */
 const { proyecto, index = 0 } = Astro.props;
-const { titulo, descripcion, stack, estado, repo, demo, imagen } = proyecto;
+const { titulo, descripcion, stack, estado, repo, demo, imagen, imagenMovil } =
+  proyecto;
 
-// Punto de color semántico del badge según el estado (el resto es monocromo).
 const enProduccion = estado.toLowerCase().startsWith("produc");
 const badgeMod = enProduccion ? "badge--live" : "badge--wip";
+
+const slug = titulo
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/(^-|-$)/g, "");
+const dialogId = `project-${slug}`;
 ---
 
 <article class="project-card reveal" style={`--reveal-delay: ${index * 90}ms`}>
-  <div class="project-card__media">
+  <button
+    class="project-card__media"
+    type="button"
+    aria-label={`Ver detalle de ${titulo}`}
+    data-project-open={dialogId}
+  >
     {
       imagen ? (
         <img
@@ -29,7 +41,8 @@ const badgeMod = enProduccion ? "badge--live" : "badge--wip";
         </span>
       )
     }
-  </div>
+    <span class="project-card__zoom" aria-hidden="true">Ver detalle</span>
+  </button>
 
   <div class="project-card__body">
     <div class="project-card__top">
@@ -45,6 +58,13 @@ const badgeMod = enProduccion ? "badge--live" : "badge--wip";
       </ul>
 
       <div class="project-card__links">
+        <button
+          class="project-card__link"
+          type="button"
+          data-project-open={dialogId}
+        >
+          Detalles
+        </button>
         <a
           class="project-card__link"
           href={repo}
@@ -69,3 +89,70 @@ const badgeMod = enProduccion ? "badge--live" : "badge--wip";
     </footer>
   </div>
 </article>
+
+<dialog
+  class="tech-dialog project-dialog"
+  id={dialogId}
+  aria-labelledby={`${dialogId}-title`}
+>
+  <div class="tech-dialog__inner project-dialog__inner">
+    <button class="tech-dialog__close" type="button" aria-label="Cerrar">
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <div class="project-dialog__head">
+      <h3 class="tech-dialog__title" id={`${dialogId}-title`}>{titulo}</h3>
+      <span class={`badge ${badgeMod}`}>{estado}</span>
+    </div>
+
+    {
+      imagen && (
+        <div class={`project-dialog__shots${imagenMovil ? " has-mobile" : ""}`}>
+          <img
+            class="project-dialog__shot"
+            src={imagen}
+            alt={`Captura de escritorio de ${titulo}`}
+            loading="lazy"
+          />
+          {imagenMovil && (
+            <img
+              class="project-dialog__shot project-dialog__shot--mobile"
+              src={imagenMovil}
+              alt={`Captura móvil de ${titulo}`}
+              loading="lazy"
+            />
+          )}
+        </div>
+      )
+    }
+
+    <p class="project-dialog__desc">{descripcion}</p>
+
+    <ul class="project-dialog__stack">
+      {stack.map((tech) => <li class="chip chip--sm">{tech}</li>)}
+    </ul>
+
+    <div class="project-dialog__links">
+      <a
+        class="btn btn--ghost"
+        href={repo}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver código ↗
+      </a>
+      {
+        demo && (
+          <a
+            class="btn btn--primary"
+            href={demo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver demo ↗
+          </a>
+        )
+      }
+    </div>
+  </div>
+</dialog>

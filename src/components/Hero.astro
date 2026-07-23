@@ -25,7 +25,7 @@ import IdCard from "./IdCard.astro";
 
       <div class="hero__actions">
         <a class="btn btn--primary" href="#projects">Ver proyectos</a>
-        <a class="btn btn--ghost" href="/cv.pdf" download>Descargar CV</a>
+        <button class="btn btn--ghost" type="button" id="cv-open">Ver CV</button>
       </div>
 
       <p class="hero__lead">
@@ -45,6 +45,33 @@ import IdCard from "./IdCard.astro";
   </div>
 </section>
 
+<dialog
+  class="cv-dialog"
+  id="cv-dialog"
+  aria-label="Curriculum Vitae de Manuel Cárdenas"
+>
+  <div class="cv-dialog__bar">
+    <span class="cv-dialog__title">Curriculum Vitae</span>
+    <div class="cv-dialog__actions">
+      <button class="cv-btn" type="button" id="cv-print">Imprimir</button>
+      <a class="cv-btn" href="/cv.pdf" download="CV-Manuel-Cardenas.pdf">
+        Descargar
+      </a>
+      <button class="cv-btn cv-btn--close" type="button" id="cv-close">
+        Volver al portafolio
+      </button>
+    </div>
+  </div>
+  <div class="cv-dialog__viewer">
+    <iframe
+      class="cv-dialog__frame"
+      data-src="/cv.pdf#toolbar=0&navpanes=0&view=FitH"
+      title="Curriculum Vitae de Manuel Cárdenas"
+    ></iframe>
+  </div>
+</dialog>
+
 <script>
   import "../scripts/hero-scroll.js";
+  import "../scripts/cv-viewer.js";
 </script>

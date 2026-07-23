@@ -32,6 +32,31 @@ const {
 // URL canónica de la página actual (con fallback al dominio de producción).
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
 const ogImage = new URL(image, Astro.site ?? SITE_URL);
+
+// Datos estructurados (JSON-LD) para mejor posicionamiento en Google.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Manuel Andrés Cárdenas Suárez",
+  jobTitle: "Analista y Desarrollador de Software",
+  url: SITE_URL,
+  image: new URL("/img/perfil.webp", SITE_URL).href,
+  email: "Manuelcardenassuarez2005@gmail.com",
+  telephone: "+573209891830",
+  sameAs: [
+    "https://github.com/Manuel151025",
+    "https://www.linkedin.com/in/manuel-cardenas-89b03b424",
+  ],
+  knowsAbout: [
+    "PHP",
+    "MySQL",
+    "Kotlin",
+    "Jetpack Compose",
+    "Docker",
+    "Astro",
+    "JavaScript",
+  ],
+};
 ---
 
 <!doctype html>
@@ -55,6 +80,12 @@ const ogImage = new URL(image, Astro.site ?? SITE_URL);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Manuel Cárdenas — Analista y Desarrollador de Software"
+    />
     <meta property="og:locale" content="es_ES" />
 
     <!-- Twitter Card -->
@@ -84,6 +115,9 @@ const ogImage = new URL(image, Astro.site ?? SITE_URL);
         }
       </style>
     </noscript>
+
+    <!-- Datos estructurados para SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -91,9 +125,14 @@ const ogImage = new URL(image, Astro.site ?? SITE_URL);
     <Intro />
     <slot />
 
+    <button class="to-top" id="to-top" type="button" aria-label="Volver arriba">
+      <span aria-hidden="true">↑</span>
+    </button>
+
     <script>
       import "../scripts/scroll-reveal.js";
       import "../scripts/grid-spotlight.js";
+      import "../scripts/to-top.js";
     </script>
   </body>
 </html>

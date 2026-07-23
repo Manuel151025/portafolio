@@ -178,17 +178,13 @@
 }
 
 /* Cuadrícula de tarjetas de tecnología (mobile-first) */
+/* Flex centrado: las filas (incluida la última incompleta) quedan centradas */
 .tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-sm);
   margin-top: var(--space-md);
-}
-
-@media (min-width: 640px) {
-  .tech-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
 }
 
 /* ============================================================
