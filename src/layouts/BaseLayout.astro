@@ -23,6 +23,11 @@ import Intro from "../components/Intro.astro";
 
 const SITE_URL = "https://manuelcardenas.online";
 
+// Analítica ligera y privada (GoatCounter, sin cookies). Para activarla:
+// crea una cuenta gratis en https://www.goatcounter.com y pon aquí el
+// subdominio que te asignan (p. ej. "manuelcardenas"). Vacío = desactivada.
+const GOATCOUNTER = "";
+
 const {
   title = "Manuel Cárdenas Suárez — Analista y Desarrollador de Software",
   description = "Portafolio de Manuel Andrés Cárdenas Suárez. Analista y Desarrollador de Software: aplicaciones web y móviles con arquitectura limpia y buenas prácticas.",
@@ -118,6 +123,18 @@ const personSchema = {
 
     <!-- Datos estructurados para SEO -->
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <!-- Analítica ligera (GoatCounter), solo si está configurada -->
+    {
+      GOATCOUNTER && (
+        <script
+          is:inline
+          data-goatcounter={`https://${GOATCOUNTER}.goatcounter.com/count`}
+          async
+          src="//gc.zgo.at/count.js"
+        />
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>

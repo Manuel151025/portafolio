@@ -96,6 +96,24 @@
   }
 }
 
+/* ---------- Flotación continua de las tarjetas del Stack ----------
+   Movimiento sutil e infinito (escalonado con --float-delay) para que la
+   sección no se vea "muerta". El hover vive en la tarjeta hija y compone. */
+@keyframes tech-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.tech-item {
+  animation: tech-float 5s var(--ease-in-out) infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
 /* Estado inicial de los elementos a revelar.
    --reveal-delay permite escalonar (stagger) desde el HTML. */
 .reveal {

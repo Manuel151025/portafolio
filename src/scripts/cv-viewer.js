@@ -1,8 +1,8 @@
 /**
- * cv-viewer.js — Visor del CV en un modal.
- * Responsabilidad única: abrir el <dialog> del CV, cargar el PDF de forma
- * diferida (data-src, no afecta el LCP), imprimir, y cerrar (volver al
- * portafolio). Usa el <dialog> nativo. Ver CLAUDE.md §4.
+ * cv-viewer.js — Visor del CV en un modal, con idioma ES/EN.
+ * Responsabilidad única: abrir el <dialog> del CV, cambiar entre CV en
+ * español (/cv.pdf) e inglés (/cv-en.pdf), imprimir y cerrar.
+ * Carga el PDF de forma diferida (no afecta el LCP). Ver CLAUDE.md §4.
  */
 
 const openBtn = document.getElementById("cv-open");
@@ -12,16 +12,38 @@ if (openBtn && dialog) {
   const frame = dialog.querySelector(".cv-dialog__frame");
   const closeBtn = dialog.querySelector("#cv-close");
   const printBtn = dialog.querySelector("#cv-print");
+  const downloadLink = dialog.querySelector("#cv-download");
+  const langBtns = dialog.querySelectorAll(".cv-lang__btn");
+
+  const CV = { es: "/cv.pdf", en: "/cv-en.pdf" };
+  let lang = "es";
+
+  const loadCv = (nextLang) => {
+    lang = CV[nextLang] ? nextLang : "es";
+    frame.src = `${CV[lang]}#toolbar=0&navpanes=0&view=FitH`;
+    if (downloadLink) {
+      downloadLink.href = CV[lang];
+      downloadLink.setAttribute(
+        "download",
+        lang === "en" ? "CV-Manuel-Cardenas-EN.pdf" : "CV-Manuel-Cardenas.pdf",
+      );
+    }
+    langBtns.forEach((b) =>
+      b.classList.toggle("is-active", b.dataset.lang === lang),
+    );
+  };
 
   openBtn.addEventListener("click", () => {
-    // Carga el PDF solo al abrir el visor.
-    if (frame && !frame.src) frame.src = frame.dataset.src;
+    if (!frame.src) loadCv(lang);
     dialog.showModal();
   });
 
+  langBtns.forEach((b) =>
+    b.addEventListener("click", () => loadCv(b.dataset.lang)),
+  );
+
   if (closeBtn) closeBtn.addEventListener("click", () => dialog.close());
 
-  // Cerrar al hacer click fuera del visor (backdrop)
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
@@ -32,8 +54,7 @@ if (openBtn && dialog) {
         frame.contentWindow.focus();
         frame.contentWindow.print();
       } catch (error) {
-        // Si el navegador no deja imprimir el PDF embebido, lo abre aparte.
-        window.open("/cv.pdf", "_blank", "noopener");
+        window.open(CV[lang], "_blank", "noopener");
       }
     });
   }

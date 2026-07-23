@@ -1161,6 +1161,48 @@
   height: 1.85rem;
 }
 
+/* Bloque de info bajo los iconos (ubicación, horario, estado) */
+.contact__info {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.contact__info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.contact__info-row dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.contact__info-row dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  text-align: right;
+}
+
+.contact__info-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-live);
+  box-shadow: 0 0 8px var(--status-live);
+}
+
 /* ============================================================
    Footer
    ============================================================ */
@@ -1512,6 +1554,35 @@ html.intro-open {
 .cv-btn--close {
   color: var(--color-text);
   border-color: var(--glow-strong);
+}
+
+/* Toggle de idioma ES / EN del visor */
+.cv-lang {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.cv-lang__btn {
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.cv-lang__btn.is-active {
+  color: var(--color-bg);
+  background-color: var(--color-text);
+}
+
+.cv-lang__btn:not(.is-active):hover {
+  color: var(--color-text);
 }
 
 .cv-dialog__viewer {

@@ -53,10 +53,15 @@ import IdCard from "./IdCard.astro";
   <div class="cv-dialog__bar">
     <span class="cv-dialog__title">Curriculum Vitae</span>
     <div class="cv-dialog__actions">
+      <div class="cv-lang" role="group" aria-label="Idioma del CV">
+        <button
+          class="cv-lang__btn is-active"
+          type="button"
+          data-lang="es">ES</button>
+        <button class="cv-lang__btn" type="button" data-lang="en">EN</button>
+      </div>
       <button class="cv-btn" type="button" id="cv-print">Imprimir</button>
-      <a class="cv-btn" href="/cv.pdf" download="CV-Manuel-Cardenas.pdf">
-        Descargar
-      </a>
+      <a class="cv-btn" id="cv-download" href="/cv.pdf" download>Descargar</a>
       <button class="cv-btn cv-btn--close" type="button" id="cv-close">
         Volver al portafolio
       </button>

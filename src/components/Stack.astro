@@ -77,7 +77,10 @@ const groups = [
             <h3 class="stack__category">{group.category}</h3>
             <ul class="tech-grid">
               {group.items.map((item, i) => (
-                <li class="tech-item reveal" style={`--reveal-delay: ${i * 45}ms`}>
+                <li
+                  class="tech-item reveal"
+                  style={`--reveal-delay: ${i * 45}ms; --float-delay: ${(i % 6) * 0.55}s`}
+                >
                   <button
                     class="tech"
                     type="button"
