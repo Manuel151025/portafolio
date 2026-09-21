@@ -4,7 +4,7 @@
  * proyecto. Ver CLAUDE.md §4 y §8.
  *
  * Campos por proyecto:
- *   titulo, descripcion, stack[], estado, repo, demo (o null),
+ *   titulo, descripcion, stack[], estado, repo (o null), demo (o null),
  *   imagen (captura escritorio, o null), imagenMovil (captura móvil, o null)
  *
  * Imágenes: guárdalas en /public/img/proyectos/ (WebP recomendado). Si un
@@ -20,6 +20,28 @@ export const projects = [
     repo: "https://github.com/Manuel151025/breadcontrol",
     demo: "https://breadcontrol.manuelcardenas.online",
     imagen: "/img/proyectos/breadcontrol.webp",
+    imagenMovil: null,
+  },
+  {
+    titulo: "Lector de Cédulas",
+    descripcion:
+      "Aplicación de escritorio que lee cédulas colombianas escaneadas en PDF con OCR y las coteja contra el Excel de inscritos, mostrando solo lo que no cuadra (caso real: fichas del SENA). Decodifica el PDF417 del reverso para confirmar los datos impresos. Todo el reconocimiento corre en el equipo: nada sale a internet.",
+    stack: [
+      "Python 3.12",
+      "Flask",
+      "Waitress",
+      "RapidOCR",
+      "OpenVINO",
+      "PyMuPDF",
+      "zxing-cpp",
+      "OpenCV",
+      "pywebview",
+      "openpyxl",
+    ],
+    estado: "Producción",
+    repo: null,
+    demo: null,
+    imagen: null,
     imagenMovil: null,
   },
   {

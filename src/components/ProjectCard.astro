@@ -13,6 +13,8 @@ const enProduccion = estado.toLowerCase().startsWith("produc");
 const badgeMod = enProduccion ? "badge--live" : "badge--wip";
 
 const slug = titulo
+  .normalize("NFD")
+  .replace(/[̀-ͯ]/g, "")
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/(^-|-$)/g, "");
@@ -65,14 +67,18 @@ const dialogId = `project-${slug}`;
         >
           Detalles
         </button>
-        <a
-          class="project-card__link"
-          href={repo}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Código <span aria-hidden="true">↗</span>
-        </a>
+        {
+          repo && (
+            <a
+              class="project-card__link"
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Código <span aria-hidden="true">↗</span>
+            </a>
+          )
+        }
         {
           demo && (
             <a
@@ -132,27 +138,31 @@ const dialogId = `project-${slug}`;
       {stack.map((tech) => <li class="chip chip--sm">{tech}</li>)}
     </ul>
 
-    <div class="project-dialog__links">
-      <a
-        class="btn btn--ghost"
-        href={repo}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Ver código ↗
-      </a>
-      {
-        demo && (
-          <a
-            class="btn btn--primary"
-            href={demo}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver demo ↗
-          </a>
-        )
-      }
-    </div>
+    {
+      (repo || demo) && (
+        <div class="project-dialog__links">
+          {repo && (
+            <a
+              class="btn btn--ghost"
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver código ↗
+            </a>
+          )}
+          {demo && (
+            <a
+              class="btn btn--primary"
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver demo ↗
+            </a>
+          )}
+        </div>
+      )
+    }
   </div>
 </dialog>

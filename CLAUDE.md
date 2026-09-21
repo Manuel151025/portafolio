@@ -136,7 +136,7 @@ Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR
 - **Herramientas:** Git, GitHub, VS Code, Claude Code, MySQL Workbench
 
 ### Proyectos (data/projects.js)
-Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo`, `demo` (o null), `imagen`.
+Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o null), `demo` (o null), `imagen`, `imagenMovil`.
 
 1. **BreadControl**
    - Descripción: Sistema web de gestión para panadería (caso real: panadería familiar). Control de ventas, producción, inventario y finanzas con costeo FIFO y pagos vía Nequi/Wompi.
@@ -145,14 +145,21 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo`, `demo
    - Repo: https://github.com/Manuel151025/breadcontrol
    - Demo: https://breadcontrol.manuelcardenas.online
 
-2. **Proyecto Offline**
+2. **Lector de Cédulas**
+   - Descripción: Aplicación de escritorio que lee cédulas colombianas escaneadas en PDF con OCR local y las coteja contra el Excel de inscritos, mostrando solo lo que no cuadra (caso real: fichas del SENA). Decodifica el PDF417 del reverso para confirmar los datos impresos. Todo el reconocimiento corre en el equipo, sin enviar nada a internet.
+   - Stack: Python 3.12, Flask, Waitress, RapidOCR, OpenVINO, PyMuPDF, zxing-cpp, OpenCV, pywebview, openpyxl
+   - Estado: **Producción**
+   - Repo: ninguno público (distribución portable, GPL-3.0)
+   - Demo: ninguna (app de escritorio)
+
+3. **Proyecto Offline**
    - Descripción: App Android nativa offline-first para encuestas de campo (caso Ministerio de Salud). Sincronización con resolución de conflictos Last-Write-Wins y patrón outbox.
    - Stack: Kotlin, Jetpack Compose, Room, WorkManager, Retrofit, Hilt, Clean Architecture/MVVM, PHP 8, MySQL 8
    - Estado: **En desarrollo**
    - Repo: https://github.com/Manuel151025/proyecto_offline
    - Demo: https://encuestas.manuelcardenas.online
 
-3. **SeguimientoSENA**
+4. **SeguimientoSENA**
    - Descripción: Sistema de seguimiento de proyectos formativos con tres roles (coordinador, instructor, aprendiz). Exportación PDF/Excel y recuperación de contraseña por email.
    - Stack: PHP 8, MySQL 8, Bootstrap 5, PDO
    - Estado: **En desarrollo**
@@ -183,7 +190,7 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo`, `demo
 
 - [ ] Foto real para el carnet (`public/img/perfil.jpg`).
 - [ ] CV en PDF (`public/cv.pdf`).
-- [ ] Capturas de proyectos (`public/img/proyectos/`).
+- [ ] Capturas de proyectos (`public/img/proyectos/`): faltan Proyecto Offline y Lector de Cédulas.
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cambiar badge a "Producción" y agregar demo.
 
 
