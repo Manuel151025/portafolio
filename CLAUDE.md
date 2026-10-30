@@ -94,8 +94,10 @@ portafolio/
 │   ├── img/
 │   │   ├── perfil.jpg            # foto del carnet (placeholder por ahora)
 │   │   └── proyectos/            # capturas de proyectos
-│   ├── cv.pdf                    # CV descargable (pendiente)
-│   └── favicon.svg
+│   ├── cv.pdf / cv-en.pdf        # CV (generado: node scripts/gen-cv.mjs)
+│   ├── favicon.svg               # fuente del favicon (monograma M_)
+│   ├── favicon.ico               # generado: node scripts/gen-favicon.mjs
+│   └── apple-touch-icon.png      # generado: node scripts/gen-favicon.mjs
 ├── Dockerfile                    # multi-stage: build Astro + nginx
 ├── .dockerignore
 ├── nginx.conf                    # config nginx para SPA estática
@@ -129,8 +131,8 @@ Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR
 > **Trabajo asistido por IA:** integro herramientas como Claude y Claude Code en mi flujo de desarrollo para acelerar la construcción, mientras yo defino la arquitectura, tomo las decisiones técnicas y reviso cada línea que entra a producción. La IA multiplica mi productividad; el criterio y el diseño son míos.
 
 ### Stack (chips agrupados)
-- **Backend:** PHP 8, MySQL 8, PDO, APIs REST
-- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5, Astro
+- **Backend:** PHP 8, MySQL 8, PDO, APIs REST, Python, FastAPI, PostgreSQL
+- **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5, Astro, Next.js, TypeScript
 - **Móvil:** Kotlin, Jetpack Compose, Room, Retrofit, Hilt
 - **DevOps / Infra:** Docker, Dokploy, Linux, Nginx, Traefik, VPS
 - **Herramientas:** Git, GitHub, VS Code, Claude Code, MySQL Workbench
@@ -138,28 +140,35 @@ Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR
 ### Proyectos (data/projects.js)
 Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o null), `demo` (o null), `imagen`, `imagenMovil`.
 
-1. **BreadControl**
+1. **KondID** (proyecto final del tecnólogo, en equipo con Emerson Corredor)
+   - Descripción: Plataforma web que lee con OCR las cédulas de las fichas PDF del SENA y las concilia contra la planilla oficial en Excel, con verificación en dos pasos y 386 pruebas automáticas en CI. Proyecto final del tecnólogo, hecho en equipo con Emerson Corredor; mi parte: seguridad, pruebas y documentación.
+   - Stack: Python 3.12, FastAPI, PostgreSQL, Next.js, TypeScript, Document AI, RapidOCR, pytest, Playwright, Docker
+   - Estado: **Producción**
+   - Repo: https://github.com/V44nxx/Proyecto_ocr (cuenta de Emerson)
+   - Demo: https://proyectoocr.v44nxx.online
+
+2. **BreadControl**
    - Descripción: Sistema web de gestión para panadería (caso real: panadería familiar). Control de ventas, producción, inventario y finanzas con costeo FIFO y pagos vía Nequi/Wompi.
    - Stack: PHP 8, MySQL 8, Bootstrap 5, PDO
    - Estado: **Producción**
    - Repo: https://github.com/Manuel151025/breadcontrol
    - Demo: https://breadcontrol.manuelcardenas.online
 
-2. **Lector de Cédulas**
+3. **Lector de Cédulas**
    - Descripción: Aplicación de escritorio que lee cédulas colombianas escaneadas en PDF con OCR local y las coteja contra el Excel de inscritos, mostrando solo lo que no cuadra (caso real: fichas del SENA). Decodifica el PDF417 del reverso para confirmar los datos impresos. Todo el reconocimiento corre en el equipo, sin enviar nada a internet.
    - Stack: Python 3.12, Flask, Waitress, RapidOCR, OpenVINO, PyMuPDF, zxing-cpp, OpenCV, pywebview, openpyxl
    - Estado: **Producción**
    - Repo: ninguno público (distribución portable, GPL-3.0)
    - Demo: ninguna (app de escritorio)
 
-3. **Proyecto Offline**
+4. **Proyecto Offline**
    - Descripción: App Android nativa offline-first para encuestas de campo (caso Ministerio de Salud). Sincronización con resolución de conflictos Last-Write-Wins y patrón outbox.
    - Stack: Kotlin, Jetpack Compose, Room, WorkManager, Retrofit, Hilt, Clean Architecture/MVVM, PHP 8, MySQL 8
    - Estado: **En desarrollo**
    - Repo: https://github.com/Manuel151025/proyecto_offline
    - Demo: https://encuestas.manuelcardenas.online
 
-4. **SeguimientoSENA**
+5. **SeguimientoSENA**
    - Descripción: Sistema de seguimiento de proyectos formativos con tres roles (coordinador, instructor, aprendiz). Exportación PDF/Excel y recuperación de contraseña por email.
    - Stack: PHP 8, MySQL 8, Bootstrap 5, PDO
    - Estado: **En desarrollo**
@@ -189,7 +198,7 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o nul
 ## 11. Pendientes
 
 - [ ] Foto real para el carnet (`public/img/perfil.jpg`).
-- [ ] CV en PDF (`public/cv.pdf`).
+- [x] CV en PDF (`public/cv.pdf` y `public/cv-en.pdf`): se edita y regenera con `node scripts/gen-cv.mjs`.
 - [ ] Capturas de proyectos (`public/img/proyectos/`): faltan Proyecto Offline y Lector de Cédulas.
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cambiar badge a "Producción" y agregar demo.
 

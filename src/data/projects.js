@@ -12,6 +12,28 @@
  */
 export const projects = [
   {
+    titulo: "KondID",
+    descripcion:
+      "Plataforma web que lee con OCR las cédulas de las fichas PDF del SENA y las concilia contra la planilla oficial en Excel, con verificación en dos pasos y 386 pruebas automáticas en CI. Proyecto final del tecnólogo, hecho en equipo con Emerson Corredor; mi parte: seguridad, pruebas y documentación.",
+    stack: [
+      "Python 3.12",
+      "FastAPI",
+      "PostgreSQL",
+      "Next.js",
+      "TypeScript",
+      "Document AI",
+      "RapidOCR",
+      "pytest",
+      "Playwright",
+      "Docker",
+    ],
+    estado: "Producción",
+    repo: "https://github.com/V44nxx/Proyecto_ocr",
+    demo: "https://proyectoocr.v44nxx.online",
+    imagen: "/img/proyectos/kondid.webp",
+    imagenMovil: null,
+  },
+  {
     titulo: "BreadControl",
     descripcion:
       "Sistema web de gestión para panadería (caso real: panadería familiar). Control de ventas, producción, inventario y finanzas con costeo FIFO y pagos vía Nequi/Wompi.",
