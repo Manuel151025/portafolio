@@ -1,13 +1,15 @@
 ---
 /**
  * ProjectCard.astro — Tarjeta de proyecto + su modal de detalle.
- * Recibe un objeto `proyecto` (ver data/projects.js). La media y el botón
- * "Detalles" abren un <dialog> con la info completa. La lógica de apertura
- * vive en scripts/project-modal.js. Ver CLAUDE.md §4 y §5.
+ * Recibe un objeto `proyecto` (ver data/projects.js). La media rota las
+ * capturas en carrusel (scripts/project-slides.js) y, como el botón
+ * "Detalles", abre un <dialog> con la info completa y una galería
+ * (scripts/project-modal.js y scripts/project-gallery.js). Ver CLAUDE.md §4 y §5.
  */
 const { proyecto, index = 0 } = Astro.props;
-const { titulo, descripcion, stack, estado, repo, demo, imagen, imagenMovil } =
+const { titulo, descripcion, stack, estado, repo, demo, capturas = [] } =
   proyecto;
+const varias = capturas.length > 1;
 
 const enProduccion = estado.toLowerCase().startsWith("produc");
 const badgeMod = enProduccion ? "badge--live" : "badge--wip";
@@ -27,23 +29,41 @@ const dialogId = `project-${slug}`;
     type="button"
     aria-label={`Ver detalle de ${titulo}`}
     data-project-open={dialogId}
+    data-slides={varias ? "" : undefined}
   >
     {
-      imagen ? (
-        <img
-          src={imagen}
-          alt={`Captura del proyecto ${titulo}`}
-          loading="lazy"
-          width="640"
-          height="360"
-        />
+      capturas.length ? (
+        capturas.map((captura, i) => (
+          <img
+            class={`slides__img${i === 0 ? " is-active" : ""}`}
+            src={captura.src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width="1280"
+            height="720"
+          />
+        ))
       ) : (
         <span class="project-card__placeholder" aria-hidden="true">
           &lt;/&gt;
         </span>
       )
     }
-    <span class="project-card__zoom" aria-hidden="true">Ver detalle</span>
+    {
+      varias && (
+        <span class="slides__bars" aria-hidden="true">
+          {capturas.map(() => (
+            <span class="slides__bar">
+              <span class="slides__fill" />
+            </span>
+          ))}
+        </span>
+      )
+    }
+    <span class="project-card__zoom" aria-hidden="true">
+      <span class="project-card__zoom-pill">Ver detalle ↗</span>
+    </span>
   </button>
 
   <div class="project-card__body">
@@ -112,21 +132,74 @@ const dialogId = `project-${slug}`;
     </div>
 
     {
-      imagen && (
-        <div class={`project-dialog__shots${imagenMovil ? " has-mobile" : ""}`}>
-          <img
-            class="project-dialog__shot"
-            src={imagen}
-            alt={`Captura de escritorio de ${titulo}`}
-            loading="lazy"
-          />
-          {imagenMovil && (
-            <img
-              class="project-dialog__shot project-dialog__shot--mobile"
-              src={imagenMovil}
-              alt={`Captura móvil de ${titulo}`}
-              loading="lazy"
-            />
+      capturas.length > 0 && (
+        <div
+          class="gallery"
+          data-gallery
+          role="region"
+          aria-roledescription="carrusel"
+          aria-label={`Capturas de ${titulo}`}
+        >
+          <div class="gallery__stage">
+            {capturas.map((captura, i) => (
+              <img
+                class={`gallery__img${i === 0 ? " is-active" : ""}`}
+                src={captura.src}
+                alt={`${titulo}: ${captura.alt}`}
+                loading="lazy"
+                decoding="async"
+                width="1280"
+                height="720"
+                aria-hidden={i === 0 ? undefined : "true"}
+              />
+            ))}
+            {varias && (
+              <>
+                <button
+                  class="gallery__nav gallery__nav--prev"
+                  type="button"
+                  aria-label="Captura anterior"
+                  data-gallery-prev
+                >
+                  <span aria-hidden="true">‹</span>
+                </button>
+                <button
+                  class="gallery__nav gallery__nav--next"
+                  type="button"
+                  aria-label="Captura siguiente"
+                  data-gallery-next
+                >
+                  <span aria-hidden="true">›</span>
+                </button>
+                <span class="gallery__count" aria-live="polite">
+                  1 / {capturas.length}
+                </span>
+              </>
+            )}
+          </div>
+          <p class="gallery__caption">{capturas[0].alt}</p>
+          {varias && (
+            <div class="gallery__thumbs">
+              {capturas.map((captura, i) => (
+                <button
+                  class={`gallery__thumb${i === 0 ? " is-active" : ""}`}
+                  type="button"
+                  aria-label={`Ver captura ${i + 1}: ${captura.alt}`}
+                  aria-current={i === 0 ? "true" : undefined}
+                  data-gallery-go={i}
+                  data-caption={captura.alt}
+                >
+                  <img
+                    src={captura.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width="1280"
+                    height="720"
+                  />
+                </button>
+              ))}
+            </div>
           )}
         </div>
       )

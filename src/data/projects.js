@@ -5,10 +5,11 @@
  *
  * Campos por proyecto:
  *   titulo, descripcion, stack[], estado, repo (o null), demo (o null),
- *   imagen (captura escritorio, o null), imagenMovil (captura móvil, o null)
+ *   capturas[] ({ src, alt }: la primera es la portada de la tarjeta)
  *
- * Imágenes: guárdalas en /public/img/proyectos/ (WebP recomendado). Si un
- * campo es null, la tarjeta muestra un placeholder. Ver §11.
+ * Imágenes: guárdalas en /public/img/proyectos/ (WebP 1280x720, 16:9). La
+ * tarjeta las rota en carrusel y el modal las muestra en galería; con el
+ * array vacío, la tarjeta muestra un placeholder.
  */
 export const projects = [
   {
@@ -30,8 +31,11 @@ export const projects = [
     estado: "Producción",
     repo: "https://github.com/V44nxx/Proyecto_ocr",
     demo: "https://proyectoocr.v44nxx.online",
-    imagen: "/img/proyectos/kondid.webp",
-    imagenMovil: null,
+    capturas: [
+      { src: "/img/proyectos/kondid-1.webp", alt: "Panel principal con los totales de fichas, personas y comparaciones" },
+      { src: "/img/proyectos/kondid-2.webp", alt: "Personas extraídas de una ficha, con las que quedan por revisar" },
+      { src: "/img/proyectos/kondid-3.webp", alt: "Comparación de los datos leídos contra la planilla oficial en Excel" },
+    ],
   },
   {
     titulo: "BreadControl",
@@ -41,8 +45,11 @@ export const projects = [
     estado: "Producción",
     repo: "https://github.com/Manuel151025/breadcontrol",
     demo: "https://breadcontrol.manuelcardenas.online",
-    imagen: "/img/proyectos/breadcontrol.webp",
-    imagenMovil: null,
+    capturas: [
+      { src: "/img/proyectos/breadcontrol-1.webp", alt: "Portada de BreadControl" },
+      { src: "/img/proyectos/breadcontrol-2.webp", alt: "Los 10 módulos integrados del sistema" },
+      { src: "/img/proyectos/breadcontrol-3.webp", alt: "Inicio de sesión con saludo, hora y clima" },
+    ],
   },
   {
     titulo: "Lector de Cédulas",
@@ -63,8 +70,11 @@ export const projects = [
     estado: "Producción",
     repo: null,
     demo: null,
-    imagen: null,
-    imagenMovil: null,
+    capturas: [
+      { src: "/img/proyectos/lector-cedulas-1.webp", alt: "Inicio con lo que falta por revisar y las últimas fichas" },
+      { src: "/img/proyectos/lector-cedulas-2.webp", alt: "Pantalla «Acerca de» con las cifras del programa" },
+      { src: "/img/proyectos/lector-cedulas-3.webp", alt: "Mis fichas: historial y en qué va cada una" },
+    ],
   },
   {
     titulo: "Proyecto Offline",
@@ -84,8 +94,11 @@ export const projects = [
     estado: "En desarrollo",
     repo: "https://github.com/Manuel151025/proyecto_offline",
     demo: "https://encuestas.manuelcardenas.online",
-    imagen: null,
-    imagenMovil: null,
+    capturas: [
+      { src: "/img/proyectos/proyecto-offline-1.webp", alt: "La app en el celular: inicio, registro sin conexión y envío de datos" },
+      { src: "/img/proyectos/proyecto-offline-2.webp", alt: "Panel de administración con el resumen de la recolección" },
+      { src: "/img/proyectos/proyecto-offline-3.webp", alt: "Panel de sincronización de los celulares" },
+    ],
   },
   {
     titulo: "SeguimientoSENA",
@@ -95,7 +108,10 @@ export const projects = [
     estado: "En desarrollo",
     repo: "https://github.com/Manuel151025/proyecto_sena",
     demo: "https://sena.manuelcardenas.online",
-    imagen: "/img/proyectos/sena.webp",
-    imagenMovil: null,
+    capturas: [
+      { src: "/img/proyectos/seguimientosena-1.webp", alt: "Panel de coordinación con el semáforo de aprendices" },
+      { src: "/img/proyectos/seguimientosena-2.webp", alt: "Expediente de seguimiento de un aprendiz" },
+      { src: "/img/proyectos/seguimientosena-3.webp", alt: "Ruta del proyecto formativo con su cronograma" },
+    ],
   },
 ];

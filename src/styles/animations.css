@@ -96,6 +96,25 @@
   }
 }
 
+/* ---------- Carrusel de las tarjetas de proyecto ----------
+   La barra activa se llena; al terminar, project-slides.js avanza. */
+@keyframes slide-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Galería del modal de proyecto ----------
+   --gallery-dir (1 o -1) lo fija project-gallery.js según el sentido. */
+@keyframes gallery-in {
+  from {
+    transform: translateX(calc(var(--gallery-dir, 1) * 5%)) scale(0.985);
+  }
+  to {
+    transform: none;
+  }
+}
+
 /* ---------- Flotación continua de las tarjetas del Stack ----------
    Movimiento sutil e infinito (escalonado con --float-delay) para que la
    sección no se vea "muerta". El hover vive en la tarjeta hija y compone. */

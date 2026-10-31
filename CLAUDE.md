@@ -81,7 +81,9 @@ portafolio/
 │   ├── scripts/
 │   │   ├── card-tilt.js
 │   │   ├── scroll-reveal.js
-│   │   └── navbar.js
+│   │   ├── navbar.js
+│   │   ├── project-slides.js     # carrusel automático de capturas en la tarjeta
+│   │   └── project-gallery.js    # galería del modal (flechas, miniaturas, teclado, swipe)
 │   ├── styles/
 │   │   ├── variables.css         # tokens (fuente única de verdad)
 │   │   ├── base.css              # reset + globales, mobile-first
@@ -93,7 +95,7 @@ portafolio/
 ├── public/
 │   ├── img/
 │   │   ├── perfil.jpg            # foto del carnet (placeholder por ahora)
-│   │   └── proyectos/            # capturas de proyectos
+│   │   └── proyectos/            # 3 capturas por proyecto: <slug>-1..3.webp (1280x720)
 │   ├── cv.pdf / cv-en.pdf        # CV (generado: node scripts/gen-cv.mjs)
 │   ├── favicon.svg               # fuente del favicon (monograma M_)
 │   ├── favicon.ico               # generado: node scripts/gen-favicon.mjs
@@ -138,7 +140,7 @@ Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR
 - **Herramientas:** Git, GitHub, VS Code, Claude Code, MySQL Workbench
 
 ### Proyectos (data/projects.js)
-Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o null), `demo` (o null), `imagen`, `imagenMovil`.
+Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o null), `demo` (o null), `capturas` (array de `{ src, alt }`; la primera es la portada). La tarjeta las rota en carrusel y el modal las muestra en galería.
 
 1. **KondID** (proyecto final del tecnólogo, en equipo con Emerson Corredor)
    - Descripción: Plataforma web que lee con OCR las cédulas de las fichas PDF del SENA y las concilia contra la planilla oficial en Excel, con verificación en dos pasos y 386 pruebas automáticas en CI. Proyecto final del tecnólogo, hecho en equipo con Emerson Corredor; mi parte: seguridad, pruebas y documentación.
@@ -199,7 +201,7 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o nul
 
 - [ ] Foto real para el carnet (`public/img/perfil.jpg`).
 - [x] CV en PDF (`public/cv.pdf` y `public/cv-en.pdf`): se edita y regenera con `node scripts/gen-cv.mjs`.
-- [ ] Capturas de proyectos (`public/img/proyectos/`): faltan Proyecto Offline y Lector de Cédulas.
+- [x] Capturas de proyectos (`public/img/proyectos/`): 3 por proyecto, con datos de demostración o inventados (nunca datos reales).
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cambiar badge a "Producción" y agregar demo.
 
 
