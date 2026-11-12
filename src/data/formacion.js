@@ -20,7 +20,7 @@ export const estudios = [
     entidad: "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá)",
     periodo: "2025 – 2027",
     estado: "En curso",
-    nota: "Disponible para etapa productiva",
+    nota: null,
   },
   {
     titulo: "Técnico en Sistemas por Competencias Laborales",

@@ -44,7 +44,7 @@
   }
 }
 
-/* ---------- Pulso del punto "disponible" del hero (único color) ---------- */
+/* ---------- Pulso del punto de estado del hero (único color) ---------- */
 @keyframes pulse-dot {
   0%,
   100% {
@@ -205,7 +205,7 @@
     transition: none;
   }
 
-  /* Punto "disponible": sin pulso */
+  /* Punto de estado del hero: sin pulso */
   .hero__badge-dot {
     animation: none;
   }

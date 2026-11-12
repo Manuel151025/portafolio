@@ -1690,14 +1690,6 @@
   text-align: right;
 }
 
-.contact__info-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background-color: var(--status-live);
-  box-shadow: 0 0 8px var(--status-live);
-}
-
 /* ============================================================
    Footer
    ============================================================ */

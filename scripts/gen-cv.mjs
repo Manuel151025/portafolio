@@ -12,12 +12,12 @@
  * (conserva el HTML intermedio e imprime su carpeta).
  *
  * Dirección de diseño — "el carnet, extendido":
- *   Para quién: talento humano y líderes técnicos que buscan un aprendiz SENA
- *   para etapa productiva y deciden en una lectura de diez segundos.
+ *   Para quién: talento humano y líderes técnicos que evalúan a un
+ *   desarrollador y deciden en una lectura de diez segundos.
  *   Qué debe sentir: claro, técnico, confiable.
  *   Concepto: el CV abre igual que el portafolio (estado, rol, nombre) y su
  *   columna oscura es el carnet del sitio: misma cabecera, foto y QR.
- *   Elemento memorable: el punto verde de disponibilidad, único color.
+ *   Elemento memorable: el punto verde de "en producción", único color.
  */
 import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
@@ -57,8 +57,8 @@ const content = {
     lang: "es",
     locale: "es-CO",
     file: "public/cv.pdf",
-    status: "Disponible para etapa productiva",
-    role: "Analista y Desarrollador de Software · Aprendiz SENA",
+    status: "2 sistemas en producción",
+    role: "Analista y Desarrollador de Software",
     location: "Colombia (Remoto)",
     labels: {
       contact: "Contacto",
@@ -72,9 +72,9 @@ const content = {
       updated: "Actualizado en",
     },
     profile:
-      "Aprendiz SENA del Tecnólogo en Análisis y Desarrollo de Software con dos sistemas en producción: una plataforma web con OCR y 386 pruebas automáticas, y un sistema de gestión para una panadería real. Cubro el ciclo completo: análisis, desarrollo, pruebas, seguridad y despliegue, y uso la IA sin soltar el criterio técnico. Busco una empresa donde realizar mi etapa productiva como desarrollador full stack.",
+      "Analista y desarrollador de software con dos sistemas en producción: una plataforma web con OCR y 386 pruebas automáticas, y un sistema de gestión para una panadería real. Cubro el ciclo completo: análisis, desarrollo, pruebas, seguridad y despliegue, y uso la IA sin soltar el criterio técnico. Trabajo con PHP, Python, JavaScript, TypeScript y Kotlin, y despliego con Docker en servidores Linux.",
     metrics: [
-      ["2", "sistemas en producción"],
+      ["3", "motores OCR en cascada"],
       ["386", "pruebas automáticas en CI"],
       ["8", "cursos del Certificado Profesional de Google AI"],
     ],
@@ -146,8 +146,8 @@ const content = {
     lang: "en",
     locale: "en-US",
     file: "public/cv-en.pdf",
-    status: "Available for internship",
-    role: "Software Analyst & Developer · SENA apprentice",
+    status: "2 systems in production",
+    role: "Software Analyst & Developer",
     location: "Colombia (Remote)",
     labels: {
       contact: "Contact",
@@ -161,9 +161,9 @@ const content = {
       updated: "Updated",
     },
     profile:
-      "SENA apprentice in the Software Analysis & Development program with two systems in production: a web platform with OCR and 386 automated tests, and a management system for a real bakery. I cover the full cycle: analysis, development, testing, security and deployment, and I use AI without giving up technical judgment. I am looking for a company where I can complete my internship (SENA's practical stage) as a full-stack developer.",
+      "Software analyst and developer with two systems in production: a web platform with OCR and 386 automated tests, and a management system for a real bakery. I cover the full cycle: analysis, development, testing, security and deployment, and I use AI without giving up technical judgment. I work with PHP, Python, JavaScript, TypeScript and Kotlin, and deploy with Docker on Linux servers.",
     metrics: [
-      ["2", "systems in production"],
+      ["3", "cascading OCR engines"],
       ["386", "automated tests in CI"],
       ["8", "courses in the Google AI Professional Certificate"],
     ],

@@ -8,7 +8,7 @@ Contexto persistente para Claude Code. Léelo al inicio de cada sesión antes de
 
 Portafolio personal de desarrollador de software. Sitio de una sola página (one-page), oscuro, moderno y muy optimizado. El elemento protagonista es una **tarjeta-carnet 3D** que se inclina siguiendo el mouse. Meta de rendimiento: **90–100 en Lighthouse**, excelente en móvil.
 
-**Para qué sirve hoy (desde nov 2026):** conseguir empresa para la **etapa productiva** del Tecnólogo en Análisis y Desarrollo de Software (SENA). El público son áreas de talento humano y líderes técnicos que deciden en una lectura rápida, así que el sitio y el CV dicen de entrada quién es Manuel, que está disponible y qué pruebas tiene: proyectos en producción con cifras verificables y certificaciones.
+**Para qué sirve hoy (desde nov 2026):** mostrarlo a empresas (lo usa para conseguir su etapa productiva del SENA, pero eso **no se dice** en el sitio ni en el CV: ver §8 Formación). El público son áreas de talento humano y líderes técnicos que deciden en una lectura rápida, así que el sitio y el CV dicen de entrada quién es Manuel y qué pruebas tiene: proyectos en producción con cifras verificables y certificaciones.
 
 ## 2. Dueño / datos de contacto
 
@@ -138,8 +138,8 @@ portafolio/
 ## 8. Contenido real
 
 ### Hero
-- Estado (píldora con punto verde): **Disponible para etapa productiva**. El mismo texto va en el CV y en la imagen Open Graph (`scripts/gen-og.mjs`).
-- Rol: **Analista y Desarrollador de Software · Aprendiz SENA**
+- Estado (píldora con punto verde): **2 sistemas en producción**. El mismo texto va en el CV y en la imagen Open Graph (`scripts/gen-og.mjs`).
+- Rol: **Analista y Desarrollador de Software**
 - Nombre: **Manuel Andrés Cárdenas Suárez**
 - Sin tagline.
 
@@ -147,7 +147,7 @@ portafolio/
 Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR pequeño opcional que apunte al GitHub.
 
 ### Sobre mí (perfil individual + workflow con IA)
-> Analista y Desarrollador de Software. Desarrollo aplicaciones web y móviles con foco en arquitectura limpia, código mantenible y buenas prácticas. Trabajo con PHP 8 y Python (FastAPI) en el backend, MySQL y PostgreSQL en datos, JavaScript y TypeScript en el frontend, y Kotlin con Jetpack Compose para desarrollo móvil nativo. En infraestructura administro despliegues con Docker y Dokploy sobre servidores Linux, usando Git y GitHub para el control de versiones. **Soy aprendiz SENA del Tecnólogo en Análisis y Desarrollo de Software y busco una empresa donde realizar mi etapa productiva.**
+> Analista y Desarrollador de Software. Desarrollo aplicaciones web y móviles con foco en arquitectura limpia, código mantenible y buenas prácticas. Trabajo con PHP 8 y Python (FastAPI) en el backend, MySQL y PostgreSQL en datos, JavaScript y TypeScript en el frontend, y Kotlin con Jetpack Compose para desarrollo móvil nativo. En infraestructura administro despliegues con Docker y Dokploy sobre servidores Linux, usando Git y GitHub para el control de versiones.
 >
 > **Trabajo asistido por IA:** integro herramientas como Claude y Claude Code en mi flujo de desarrollo para acelerar la construcción, mientras yo defino la arquitectura, tomo las decisiones técnicas y reviso cada línea que entra a producción. La IA multiplica mi productividad; el criterio y el diseño son míos.
 
@@ -181,13 +181,13 @@ Solo van los proyectos **en producción** que mejor muestran el trabajo (decisi�
 **Fuera del portafolio por ahora** (siguen en el historial de git y en GitHub): Lector de Cédulas (app de escritorio, sin repo ni demo públicos; se solapa con KondID), Proyecto Offline y SeguimientoSENA (en desarrollo). Vuelven cuando estén en producción y con demo abierta.
 
 ### Formación (data/formacion.js)
-- **Estudios:** Tecnólogo en Análisis y Desarrollo de Software — SENA, Centro Tecnológico de la Amazonia, Florencia (Caquetá), 2025–2027, en curso, disponible para etapa productiva. Técnico en Sistemas por Competencias Laborales — SENA, 2024.
-- **No se nombra la modalidad** de la etapa productiva (contrato de aprendizaje, pasantía…) ni en el sitio ni en el CV: solo "etapa productiva". Manuel pidió quitarla el 12 de noviembre de 2026.
+- **Estudios:** Tecnólogo en Análisis y Desarrollo de Software — SENA, Centro Tecnológico de la Amazonia, Florencia (Caquetá), 2025–2027, en curso (sin nota). Técnico en Sistemas por Competencias Laborales — SENA, 2024.
+- **El sitio y el CV no hablan de la búsqueda de empresa** (decisión de Manuel, 12 nov 2026): nada de "aprendiz SENA", "etapa productiva", etapa lectiva, duración (6 meses), modalidad (contrato de aprendizaje, pasantía…), "disponible para…" ni "busco empresa". Solo formación, proyectos, stack y certificaciones; el SENA aparece únicamente como institución en Formación y en los proyectos. Contexto (no publicarlo): terminó la etapa lectiva y su etapa productiva de 6 meses puede empezar desde el 11 nov 2026.
 - **Certificaciones (Google · Coursera):** Certificado Profesional de Google AI — completado el 11 de nov de 2026 (8 cursos), con verificación pública en https://www.coursera.org/verify/professional-cert/H1LCXVM8XO2D. En curso: Ciberseguridad de Google y Análisis de Datos de Google (8 cursos cada uno).
 - Al terminar un certificado: actualizar `formacion.js` (fecha, estado y enlace `credencial`), el bloque `certs` de `scripts/gen-cv.mjs` (su `link`) y regenerar el CV. El enlace es la dirección `coursera.org/verify/…` que Coursera imprime en el certificado; si Manuel pasa un enlace corto (`share.google/…`), seguirlo y confirmar que abre su certificado antes de usarlo.
 
 ### CV (scripts/gen-cv.mjs)
-Una página carta, ES y EN. Abre igual que el hero (estado, rol, nombre) y su columna oscura repite el carnet (cabecera `SOFTWARE DEV · DEV-2026`, foto, QR al portafolio). Lleva las tipografías del sitio embebidas (devDependencies `@fontsource/*`). Contenido: perfil, tres cifras, los mismos dos proyectos, certificaciones y educación. Si el contenido se pasa de una página, Chrome empuja el QR y el pie a una segunda: recortar texto, no bajar la letra.
+Una página carta, ES y EN. Abre igual que el hero (estado, rol, nombre) y su columna oscura repite el carnet (cabecera `SOFTWARE DEV · DEV-2026`, foto, QR al portafolio). Lleva las tipografías del sitio embebidas (devDependencies `@fontsource/*`). Contenido: perfil, tres cifras (3 motores OCR · 386 pruebas · 8 cursos de Google AI; "2 sistemas en producción" ya va en la píldora), los mismos dos proyectos, certificaciones y educación. Si el contenido se pasa de una página, Chrome empuja el QR y el pie a una segunda: recortar texto, no bajar la letra.
 
 El CV se regenera con el mismo nombre de archivo, así que no puede quedar en la caché del navegador: `Hero.astro` enlaza cada PDF con la huella de su contenido (`/cv.pdf?v=…`, calculada al compilar; `cv-viewer.js` la lee del `<dialog>`) y `nginx.conf` deja los PDF fuera de la caché de 30 días.
 
@@ -219,7 +219,7 @@ El CV se regenera con el mismo nombre de archivo, así que no puede quedar en la
 - [x] Enlace de verificación del Certificado Profesional de Google AI: puesto en `src/data/formacion.js` (`credencial`) y en el CV.
 - [ ] Al terminar Ciberseguridad y Análisis de Datos de Google: pasarlos a "Completado" en el sitio y en el CV.
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cuando estén en producción y con demo abierta, devolverlos a `projects.js`.
-- [ ] Confirmar las fechas del tecnólogo (2025–2027) y, cuando haya, la fecha de inicio de la etapa productiva.
+- [ ] BreadControl se va a reestructurar (dic 2026 o antes): quedará solo el inventario de la panadería y se quita el portal de aprendices. Cuando esté publicada, rehacer en `projects.js` y en el CV la descripción, las cifras (10 módulos, 19 tablas) y las 3 capturas. Las fechas del CV ("2025 – Presente") siguen sin confirmar: el primer commit del repo es de junio de 2026.
 
 
 ## Infraestructura (IMPORTANTE)
