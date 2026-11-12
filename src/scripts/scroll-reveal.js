@@ -18,18 +18,31 @@ if (reveals.length) {
   if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     reveals.forEach((el) => el.classList.add("is-visible"));
   } else {
+    // Qué elemento se observa para revelar cada uno. Un título con wipe
+    // arranca recortado por completo (clip-path) y el navegador no lo cuenta
+    // como visible: observándolo a él nunca se dispararía. Se observa su
+    // contenedor y, cuando entra, se revela el título.
+    const toReveal = new Map();
+    reveals.forEach((el) => {
+      const watched = el.classList.contains("reveal-wipe")
+        ? el.parentElement
+        : el;
+      toReveal.set(watched, [...(toReveal.get(watched) ?? []), el]);
+    });
+
     const observer = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            obs.unobserve(entry.target); // se revela una sola vez
-          }
+          if (!entry.isIntersecting) return;
+          toReveal
+            .get(entry.target)
+            .forEach((el) => el.classList.add("is-visible"));
+          obs.unobserve(entry.target); // se revela una sola vez
         });
       },
       { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
     );
 
-    reveals.forEach((el) => observer.observe(el));
+    toReveal.forEach((_, watched) => observer.observe(watched));
   }
 }

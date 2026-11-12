@@ -1,0 +1,106 @@
+---
+/**
+ * Formacion.astro — Sección "Formación".
+ * Izquierda: estudios como línea de tiempo. Derecha: certificaciones como
+ * credenciales (talón con el emisor + cuerpo), el mismo lenguaje del carnet
+ * del hero. Los datos viven en data/formacion.js. Ver CLAUDE.md §7 y §8.
+ *
+ * En las credenciales, el reveal va en el <li> y el hover en el <article>:
+ * así el retraso escalonado de la entrada no frena la respuesta al cursor.
+ */
+import { Icon } from "astro-icon/components";
+import { estudios, certificaciones } from "../data/formacion.js";
+
+/** @param {string} estado */
+const badgeDe = (estado) =>
+  estado.toLowerCase().startsWith("complet") ? "badge--live" : "badge--wip";
+---
+
+<section class="section formacion" id="formacion">
+  <div class="container">
+    <header class="section__head">
+      <span class="section__index reveal">04 —</span>
+      <h2 class="section__title reveal-wipe">Formación</h2>
+    </header>
+
+    <div class="formacion__grid">
+      <div class="formacion__col">
+        <h3 class="formacion__label reveal">Educación</h3>
+        <ol class="timeline">
+          {
+            estudios.map((estudio, i) => (
+              <li
+                class="timeline__item reveal"
+                style={`--reveal-delay: ${i * 90}ms`}
+              >
+                <p class="timeline__when">
+                  {estudio.periodo}
+                  {estudio.estado && (
+                    <span class="badge badge--wip">{estudio.estado}</span>
+                  )}
+                </p>
+                <h4 class="timeline__title">{estudio.titulo}</h4>
+                <p class="timeline__where">{estudio.entidad}</p>
+                {estudio.nota && (
+                  <p class="timeline__note">
+                    <span class="timeline__note-dot" aria-hidden="true" />
+                    {estudio.nota}
+                  </p>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div class="formacion__col">
+        <h3 class="formacion__label reveal">Certificaciones</h3>
+        <ul class="credentials">
+          {
+            certificaciones.map((cert, i) => (
+              <li class="reveal" style={`--reveal-delay: ${i * 90}ms`}>
+                <article class="credential">
+                  <div class="credential__stub" aria-hidden="true">
+                    <span class="credential__icon">
+                      <Icon name="simple-icons:google" />
+                    </span>
+                    <span class="credential__count">
+                      <b>{cert.cursos}</b> cursos
+                    </span>
+                  </div>
+
+                  <div class="credential__body">
+                    <div class="credential__top">
+                      <p class="credential__issuer">
+                        {cert.emisor}
+                        {cert.fecha && ` · ${cert.fecha}`}
+                      </p>
+                      <span class={`badge ${badgeDe(cert.estado)}`}>
+                        {cert.estado}
+                      </span>
+                    </div>
+                    <h4 class="credential__title">{cert.titulo}</h4>
+                    <p class="visually-hidden">{cert.cursos} cursos</p>
+                    {cert.detalle && (
+                      <p class="credential__detail">{cert.detalle}</p>
+                    )}
+                    {cert.credencial && (
+                      <a
+                        class="credential__link"
+                        href={cert.credencial}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Ver credencial <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

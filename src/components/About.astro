@@ -2,7 +2,7 @@
 /**
  * About.astro — Sección "Sobre mí".
  * Perfil + bloque de trabajo asistido por IA + áreas de enfoque.
- * Contenido literal según CLAUDE.md §8; las áreas resumen su stack real.
+ * Contenido según CLAUDE.md §8; las áreas resumen su stack real.
  */
 import { Icon } from "astro-icon/components";
 
@@ -23,9 +23,9 @@ const focus = [
     desc: "Docker, Dokploy y Nginx sobre Linux: del código a producción sin fricción.",
   },
   {
-    icon: "simple-icons:git",
-    title: "Buenas prácticas",
-    desc: "Arquitectura limpia, código mantenible y control de versiones con Git.",
+    icon: "simple-icons:pytest",
+    title: "Calidad y seguridad",
+    desc: "Pruebas automáticas con pytest y Playwright en CI, verificación en dos pasos y análisis con OWASP ZAP.",
   },
 ];
 ---
@@ -41,11 +41,14 @@ const focus = [
       <p class="about__lead reveal">
         <strong>Analista y Desarrollador de Software.</strong> Desarrollo
         aplicaciones web y móviles con foco en arquitectura limpia, código
-        mantenible y buenas prácticas. Trabajo principalmente con PHP 8 y
-        MySQL 8 en el backend, JavaScript y Bootstrap en el frontend, y Kotlin
-        con Jetpack Compose para desarrollo móvil nativo. En infraestructura
-        administro despliegues con Docker y Dokploy sobre servidores Linux,
-        usando Git y GitHub para el control de versiones.
+        mantenible y buenas prácticas. Trabajo con PHP 8 y Python (FastAPI) en
+        el backend, MySQL y PostgreSQL en datos, JavaScript y TypeScript en el
+        frontend, y Kotlin con Jetpack Compose para desarrollo móvil nativo.
+        En infraestructura administro despliegues con Docker y Dokploy sobre
+        servidores Linux, usando Git y GitHub para el control de versiones. <strong
+          >Soy aprendiz SENA del Tecnólogo en Análisis y Desarrollo de Software
+          y busco una empresa donde realizar mi etapa productiva.</strong
+        >
       </p>
 
       <aside class="about__ai reveal" style="--reveal-delay: 120ms">

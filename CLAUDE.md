@@ -8,6 +8,8 @@ Contexto persistente para Claude Code. Léelo al inicio de cada sesión antes de
 
 Portafolio personal de desarrollador de software. Sitio de una sola página (one-page), oscuro, moderno y muy optimizado. El elemento protagonista es una **tarjeta-carnet 3D** que se inclina siguiendo el mouse. Meta de rendimiento: **90–100 en Lighthouse**, excelente en móvil.
 
+**Para qué sirve hoy (desde nov 2026):** conseguir empresa para la **etapa productiva** del Tecnólogo en Análisis y Desarrollo de Software (SENA). El público son áreas de talento humano y líderes técnicos que deciden en una lectura rápida, así que el sitio y el CV dicen de entrada quién es Manuel, que está disponible y qué pruebas tiene: proyectos en producción con cifras verificables y certificaciones.
+
 ## 2. Dueño / datos de contacto
 
 - **Nombre:** Manuel Andrés Cárdenas Suárez
@@ -29,7 +31,7 @@ Portafolio personal de desarrollador de software. Sitio de una sola página (one
 - **Separación estricta de responsabilidades.** Los `.astro` contienen solo HTML (template) y lógica de build (frontmatter entre `---`). **Nada de JavaScript de navegador embebido en el HTML.** Todo el JS del cliente va en `src/scripts/*.js` y se carga con `<script>`.
 - **Un archivo, una responsabilidad (SRP):** cada script JS hace una sola cosa (`card-tilt.js`, `scroll-reveal.js`, `navbar.js`).
 - **Mobile-first:** escribe el CSS para móvil primero, escala con `min-width`.
-- **Datos separados de la vista:** el contenido de los proyectos vive en `src/data/projects.js`. Los componentes lo renderizan en bucle.
+- **Datos separados de la vista:** el contenido de los proyectos vive en `src/data/projects.js` y el de estudios y certificaciones en `src/data/formacion.js`. Los componentes lo renderizan en bucle.
 - **Componentización real:** una tarjeta de proyecto se define UNA vez (`ProjectCard.astro`) y se reutiliza.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `style:`, `docs:`). Rama principal: `main`.
 
@@ -59,6 +61,14 @@ Portafolio personal de desarrollador de software. Sitio de una sola página (one
 ### Tono visual
 Premium, técnico y sobrio. Sensación: "esta persona sabe lo que hace y cuida los detalles."
 
+### Dirección y reglas al tocar la interfaz
+- La dirección de diseño ("el carnet de un desarrollador") está escrita al inicio de `src/styles/variables.css`; el CV sigue la misma (`scripts/gen-cv.mjs`).
+- **Único color:** el punto de estado (verde = disponible / en producción / completado; ámbar = en curso). Nada más lleva color.
+- **Todo valor sale de los tokens** de `variables.css` (nada de medidas sueltas).
+- **Objetivos táctiles de 44px** (`min-height: 2.75rem`) en botones y enlaces.
+- **Probar en 360, 768 y 1280 px**, sin scroll horizontal, y revisar con capturas del navegador antes de dar algo por terminado.
+- Un título con `.reveal-wipe` arranca recortado: `scroll-reveal.js` observa a su contenedor (si se observa el título, Chrome nunca lo revela).
+
 ## 6. Arquitectura de archivos
 
 ```
@@ -73,16 +83,18 @@ portafolio/
 │   │   ├── About.astro
 │   │   ├── Stack.astro
 │   │   ├── Projects.astro        # itera sobre projects.js
-│   │   ├── ProjectCard.astro     # tarjeta reutilizable
+│   │   ├── ProjectCard.astro     # fila de proyecto (reutilizable) + su modal
+│   │   ├── Formacion.astro       # estudios (línea de tiempo) + certificaciones
 │   │   ├── Contact.astro
 │   │   └── Footer.astro
 │   ├── data/
-│   │   └── projects.js           # datos de proyectos (fuente única)
+│   │   ├── projects.js           # datos de proyectos (fuente única)
+│   │   └── formacion.js          # estudios y certificaciones (fuente única)
 │   ├── scripts/
 │   │   ├── card-tilt.js
 │   │   ├── scroll-reveal.js
 │   │   ├── navbar.js
-│   │   ├── project-slides.js     # carrusel automático de capturas en la tarjeta
+│   │   ├── project-slides.js     # carrusel de capturas + pie de la captura actual
 │   │   └── project-gallery.js    # galería del modal (flechas, miniaturas, teclado, swipe)
 │   ├── styles/
 │   │   ├── variables.css         # tokens (fuente única de verdad)
@@ -100,6 +112,11 @@ portafolio/
 │   ├── favicon.svg               # fuente del favicon (monograma M_)
 │   ├── favicon.ico               # generado: node scripts/gen-favicon.mjs
 │   └── apple-touch-icon.png      # generado: node scripts/gen-favicon.mjs
+├── scripts/                      # generadores locales (no corren en el despliegue)
+│   ├── gen-cv.mjs                # CV ES/EN: contenido + diseño; --keep-html para depurar
+│   ├── cv-foto.jpg               # foto a color del CV
+│   ├── gen-og.mjs                # imagen Open Graph (public/img/og-image.png)
+│   └── gen-favicon.mjs
 ├── Dockerfile                    # multi-stage: build Astro + nginx
 ├── .dockerignore
 ├── nginx.conf                    # config nginx para SPA estática
@@ -109,26 +126,28 @@ portafolio/
 
 ## 7. Secciones de la página (orden)
 
-1. **Navbar** — fijo, minimal. Nombre a la izquierda; links (Sobre mí · Stack · Proyectos · Contacto) a la derecha. Blur al scrollear.
-2. **Hero** — dos columnas. Izquierda: nombre, rol, botones (Ver proyectos / Descargar CV). Derecha: el carnet 3D.
-3. **Sobre mí** — párrafo + workflow con IA (ver contenido abajo).
-4. **Stack** — chips agrupados por categoría.
-5. **Proyectos** — grid de tarjetas desde `projects.js`.
-6. **Contacto** — email, GitHub, LinkedIn + CTA.
-7. **Footer** — copyright, links rápidos.
+1. **Navbar** — fijo, minimal. Nombre a la izquierda; links (Sobre mí · Stack · Proyectos · Formación · Contacto) a la derecha. Blur al scrollear.
+2. **Hero** — dos columnas. Izquierda: estado, rol, nombre, botones (Ver proyectos / Ver CV). Derecha: el carnet 3D.
+3. **Sobre mí** (01) — párrafo + workflow con IA + cuatro áreas de enfoque.
+4. **Stack** (02) — tarjetas de tecnología agrupadas por categoría.
+5. **Proyectos** (03) — una fila por proyecto desde `projects.js`: captura enmarcada con carrusel a un lado y texto con tres cifras al otro; las filas pares invierten el lado. En móvil se apilan.
+6. **Formación** (04) — estudios como línea de tiempo y certificaciones como credenciales con talón, desde `formacion.js`.
+7. **Contacto** (05) — formulario, redes y estado.
+8. **Footer** — copyright, links rápidos.
 
 ## 8. Contenido real
 
 ### Hero
+- Estado (píldora con punto verde): **Disponible para etapa productiva**. El mismo texto va en el CV y en la imagen Open Graph (`scripts/gen-og.mjs`).
+- Rol: **Analista y Desarrollador de Software · Aprendiz SENA**
 - Nombre: **Manuel Andrés Cárdenas Suárez**
-- Rol: **Analista y Desarrollador de Software**
 - Sin tagline.
 
 ### Carnet (IdCard)
 Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR pequeño opcional que apunte al GitHub.
 
 ### Sobre mí (perfil individual + workflow con IA)
-> Analista y Desarrollador de Software. Desarrollo aplicaciones web y móviles con foco en arquitectura limpia, código mantenible y buenas prácticas. Trabajo principalmente con PHP 8 y MySQL 8 en el backend, JavaScript y Bootstrap en el frontend, y Kotlin con Jetpack Compose para desarrollo móvil nativo. En infraestructura administro despliegues con Docker y Dokploy sobre servidores Linux, usando Git y GitHub para el control de versiones.
+> Analista y Desarrollador de Software. Desarrollo aplicaciones web y móviles con foco en arquitectura limpia, código mantenible y buenas prácticas. Trabajo con PHP 8 y Python (FastAPI) en el backend, MySQL y PostgreSQL en datos, JavaScript y TypeScript en el frontend, y Kotlin con Jetpack Compose para desarrollo móvil nativo. En infraestructura administro despliegues con Docker y Dokploy sobre servidores Linux, usando Git y GitHub para el control de versiones. **Soy aprendiz SENA del Tecnólogo en Análisis y Desarrollo de Software y busco una empresa donde realizar mi etapa productiva.**
 >
 > **Trabajo asistido por IA:** integro herramientas como Claude y Claude Code en mi flujo de desarrollo para acelerar la construcción, mientras yo defino la arquitectura, tomo las decisiones técnicas y reviso cada línea que entra a producción. La IA multiplica mi productividad; el criterio y el diseño son míos.
 
@@ -136,46 +155,38 @@ Foto (placeholder por ahora) + nombre + rol + un ID decorativo (`DEV-2026`) + QR
 - **Backend:** PHP 8, MySQL 8, PDO, APIs REST, Python, FastAPI, PostgreSQL
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5, Astro, Next.js, TypeScript
 - **Móvil:** Kotlin, Jetpack Compose, Room, Retrofit, Hilt
+- **Calidad y seguridad:** pytest, Playwright, GitHub Actions, OWASP ZAP, JMeter
 - **DevOps / Infra:** Docker, Dokploy, Linux, Nginx, Traefik, VPS
-- **Herramientas:** Git, GitHub, VS Code, Claude Code, MySQL Workbench
+- **Herramientas:** Git, GitHub, VS Code, Claude Code, MySQL Workbench, Jira
 
 ### Proyectos (data/projects.js)
-Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o null), `demo` (o null), `capturas` (array de `{ src, alt }`; la primera es la portada). La tarjeta las rota en carrusel y el modal las muestra en galería.
+Solo van los proyectos **en producción** que mejor muestran el trabajo (decisión de nov 2026: menos proyectos, mejor contados). Cada proyecto: `titulo`, `rol` (contexto: equipo, cliente…), `descripcion`, `cifras` (tres `{ valor, etiqueta }` verificables), `destacados` (detalle para el modal), `stack` (array), `estado`, `repo` (o null), `demo` (o null), `capturas` (array de `{ src, alt }`; la primera es la portada). La fila rota las capturas en carrusel y el modal las muestra en galería.
 
 1. **KondID** (proyecto final del tecnólogo, en equipo con Emerson Corredor)
-   - Descripción: Plataforma web que lee con OCR las cédulas de las fichas PDF del SENA y las concilia contra la planilla oficial en Excel, con verificación en dos pasos y 386 pruebas automáticas en CI. Proyecto final del tecnólogo, hecho en equipo con Emerson Corredor; mi parte: seguridad, pruebas y documentación.
+   - Descripción: Plataforma web que lee con OCR las cédulas de las fichas PDF del SENA y las concilia contra la planilla oficial en Excel. La construí con Emerson Corredor; mi parte fue la seguridad, las pruebas y la documentación.
+   - Cifras (del informe de pruebas, v2.7.0): 386 pruebas automáticas · 26/26 casos de seguridad · 3 motores OCR en cascada. Otros datos del informe: errores 500 bajo ataque de OWASP ZAP de 3.201 a 17; 22 defectos encontrados, 17 cerrados.
    - Stack: Python 3.12, FastAPI, PostgreSQL, Next.js, TypeScript, Document AI, RapidOCR, pytest, Playwright, Docker
    - Estado: **Producción**
    - Repo: https://github.com/V44nxx/Proyecto_ocr (cuenta de Emerson)
    - Demo: https://proyectoocr.v44nxx.online
 
-2. **BreadControl**
-   - Descripción: Sistema web de gestión para panadería (caso real: panadería familiar). Control de ventas, producción, inventario y finanzas con costeo FIFO y pagos vía Nequi/Wompi.
-   - Stack: PHP 8, MySQL 8, Bootstrap 5, PDO
+2. **BreadControl** (cliente real, desarrollo individual)
+   - Descripción: Sistema web de gestión para una panadería familiar: compras, inventario, producción, ventas y cierre diario, con costeo FIFO por lotes y pagos por Nequi/Wompi.
+   - Cifras (de su propia landing): 10 módulos integrados · 19 tablas en MySQL · 4 sprints con Scrum (Jira).
+   - Stack: PHP 8, MySQL 8, Bootstrap 5, JavaScript, PDO, Docker
    - Estado: **Producción**
    - Repo: https://github.com/Manuel151025/breadcontrol
    - Demo: https://breadcontrol.manuelcardenas.online
 
-3. **Lector de Cédulas**
-   - Descripción: Aplicación de escritorio que lee cédulas colombianas escaneadas en PDF con OCR local y las coteja contra el Excel de inscritos, mostrando solo lo que no cuadra (caso real: fichas del SENA). Decodifica el PDF417 del reverso para confirmar los datos impresos. Todo el reconocimiento corre en el equipo, sin enviar nada a internet.
-   - Stack: Python 3.12, Flask, Waitress, RapidOCR, OpenVINO, PyMuPDF, zxing-cpp, OpenCV, pywebview, openpyxl
-   - Estado: **Producción**
-   - Repo: ninguno público (distribución portable, GPL-3.0)
-   - Demo: ninguna (app de escritorio)
+**Fuera del portafolio por ahora** (siguen en el historial de git y en GitHub): Lector de Cédulas (app de escritorio, sin repo ni demo públicos; se solapa con KondID), Proyecto Offline y SeguimientoSENA (en desarrollo). Vuelven cuando estén en producción y con demo abierta.
 
-4. **Proyecto Offline**
-   - Descripción: App Android nativa offline-first para encuestas de campo (caso Ministerio de Salud). Sincronización con resolución de conflictos Last-Write-Wins y patrón outbox.
-   - Stack: Kotlin, Jetpack Compose, Room, WorkManager, Retrofit, Hilt, Clean Architecture/MVVM, PHP 8, MySQL 8
-   - Estado: **En desarrollo**
-   - Repo: https://github.com/Manuel151025/proyecto_offline
-   - Demo: https://encuestas.manuelcardenas.online
+### Formación (data/formacion.js)
+- **Estudios:** Tecnólogo en Análisis y Desarrollo de Software — SENA, Centro Tecnológico de la Amazonia, Florencia (Caquetá), 2025–2027, en curso, disponible para etapa productiva (contrato de aprendizaje). Técnico en Sistemas por Competencias Laborales — SENA, 2024.
+- **Certificaciones (Google · Coursera):** Certificado Profesional de Google AI — completado en nov 2026 (8 cursos). En curso: Ciberseguridad de Google y Análisis de Datos de Google (8 cursos cada uno).
+- Al terminar un certificado: actualizar `formacion.js` (fecha, estado y enlace `credencial`), el bloque `certs` de `scripts/gen-cv.mjs` y regenerar el CV.
 
-5. **SeguimientoSENA**
-   - Descripción: Sistema de seguimiento de proyectos formativos con tres roles (coordinador, instructor, aprendiz). Exportación PDF/Excel y recuperación de contraseña por email.
-   - Stack: PHP 8, MySQL 8, Bootstrap 5, PDO
-   - Estado: **En desarrollo**
-   - Repo: https://github.com/Manuel151025/proyecto_sena
-   - Demo: https://sena.manuelcardenas.online
+### CV (scripts/gen-cv.mjs)
+Una página carta, ES y EN. Abre igual que el hero (estado, rol, nombre) y su columna oscura repite el carnet (cabecera `SOFTWARE DEV · DEV-2026`, foto, QR al portafolio). Lleva las tipografías del sitio embebidas (devDependencies `@fontsource/*`). Contenido: perfil, tres cifras, los mismos dos proyectos, certificaciones y educación. Si el contenido se pasa de una página, Chrome empuja el QR y el pie a una segunda: recortar texto, no bajar la letra.
 
 ### Contacto
 - Email: Manuelcardenassuarez2005@gmail.com
@@ -202,7 +213,10 @@ Cada proyecto: `titulo`, `descripcion`, `stack` (array), `estado`, `repo` (o nul
 - [ ] Foto real para el carnet (`public/img/perfil.jpg`).
 - [x] CV en PDF (`public/cv.pdf` y `public/cv-en.pdf`): se edita y regenera con `node scripts/gen-cv.mjs`.
 - [x] Capturas de proyectos (`public/img/proyectos/`): 3 por proyecto, con datos de demostración o inventados (nunca datos reales).
-- [ ] Terminar Proyecto Offline y SeguimientoSENA → cambiar badge a "Producción" y agregar demo.
+- [ ] Pegar en `src/data/formacion.js` (`credencial`) el enlace "Ver certificado" del Certificado Profesional de Google AI en Coursera.
+- [ ] Al terminar Ciberseguridad y Análisis de Datos de Google: pasarlos a "Completado" en el sitio y en el CV.
+- [ ] Terminar Proyecto Offline y SeguimientoSENA → cuando estén en producción y con demo abierta, devolverlos a `projects.js`.
+- [ ] Confirmar las fechas del tecnólogo (2025–2027) y, cuando haya, la fecha de inicio de la etapa productiva.
 
 
 ## Infraestructura (IMPORTANTE)

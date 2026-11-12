@@ -30,7 +30,7 @@ const GOATCOUNTER = "manuelcardenas";
 
 const {
   title = "Manuel Cárdenas Suárez — Analista y Desarrollador de Software",
-  description = "Portafolio de Manuel Andrés Cárdenas Suárez. Analista y Desarrollador de Software: aplicaciones web y móviles con arquitectura limpia y buenas prácticas.",
+  description = "Portafolio de Manuel Andrés Cárdenas Suárez, Analista y Desarrollador de Software. Aprendiz SENA disponible para etapa productiva, con proyectos web en producción.",
   image = "/img/og-image.png",
 } = Astro.props;
 
@@ -64,6 +64,19 @@ const personSchema = {
     "Docker",
     "Astro",
     "JavaScript",
+  ],
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "SENA — Servicio Nacional de Aprendizaje",
+  },
+  // Solo certificados terminados (ver data/formacion.js).
+  hasCredential: [
+    {
+      "@type": "EducationalOccupationalCredential",
+      name: "Google AI Professional Certificate",
+      credentialCategory: "Professional Certificate",
+      recognizedBy: { "@type": "Organization", name: "Google" },
+    },
   ],
 };
 ---

@@ -4,6 +4,18 @@
    Tema oscuro, monocromático + glow blanco. Ver CLAUDE.md §5.
    ============================================================ */
 
+/* Dirección de diseño — "el carnet de un desarrollador"
+   Para quién: empresas (talento humano y líderes técnicos) que buscan un
+     aprendiz SENA para etapa productiva y deciden en una lectura rápida.
+   Qué debe sentir: confiable, técnico, cuidadoso con el detalle.
+   Concepto: el sitio es una credencial. El carnet 3D del hero marca el
+     lenguaje (etiquetas mono, superficies oscuras, estado con un punto de
+     color) y el resto lo repite: las certificaciones son credenciales con
+     talón y cada proyecto muestra cifras verificables.
+   Elemento memorable: el carnet colgante que se inclina con el cursor.
+   Único color: el punto de estado (verde = disponible / en producción /
+     completado; ámbar = en curso). */
+
 :root {
   /* ---------- Paleta (dark, monocromática + glow blanco) ---------- */
   --color-bg: #0a0a0b;              /* fondo base */
@@ -38,6 +50,7 @@
     "Liberation Mono", "Menlo", monospace;
 
   /* Escala tipográfica fluida (mobile-first, escala con el viewport) */
+  --fs-2xs: 0.7rem;      /* 11px  — micro-etiquetas mono */
   --fs-xs: 0.75rem;      /* 12px  — chips, detalles < /> */
   --fs-sm: 0.875rem;     /* 14px  — texto pequeño */
   --fs-base: 1rem;       /* 16px  — cuerpo */

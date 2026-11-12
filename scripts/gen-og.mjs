@@ -39,7 +39,7 @@ const bg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <rect x="${W - PHOTO_W - 78}" y="${(H - PHOTO_H) / 2 - 8}" width="${PHOTO_W + 16}" height="${PHOTO_H + 16}" rx="34" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
   <g fill="#F5F5F7" font-family="'Segoe UI', 'Space Grotesk', system-ui, sans-serif">
     <circle cx="92" cy="150" r="7" fill="#4ade80"/>
-    <text x="112" y="157" font-family="'Consolas','JetBrains Mono',monospace" font-size="21" fill="#a1a1aa" letter-spacing="2">DISPONIBLE PARA TRABAJAR</text>
+    <text x="112" y="157" font-family="'Consolas','JetBrains Mono',monospace" font-size="21" fill="#a1a1aa" letter-spacing="2">DISPONIBLE PARA ETAPA PRODUCTIVA</text>
     <text x="88" y="272" font-size="68" font-weight="700">Manuel Andrés</text>
     <text x="88" y="348" font-size="68" font-weight="700" fill="#a1a1aa">Cárdenas Suárez</text>
     <text x="90" y="424" font-family="'Consolas','JetBrains Mono',monospace" font-size="25" fill="#f5f5f7">Analista y Desarrollador de Software</text>

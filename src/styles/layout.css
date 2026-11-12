@@ -89,6 +89,9 @@
   min-height: 100dvh;
   /* Deja aire bajo el navbar flotante (1.5rem arriba + 3.5rem de alto) */
   padding-block: calc(5rem + var(--space-2xl)) var(--space-2xl);
+  /* El carnet va girado: en pantallas angostas su esquina sobresale unos
+     píxeles y creaba scroll horizontal. clip recorta sin crear scroll. */
+  overflow-x: clip;
 }
 
 .hero__inner {
@@ -188,18 +191,28 @@
 }
 
 /* ============================================================
-   Proyectos (grid responsive)
+   Proyectos (una fila por proyecto; la fila en sí vive en components.css)
    ============================================================ */
 .projects__grid {
   display: grid;
   grid-template-columns: 1fr;
-  align-items: stretch;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
 }
 
-@media (min-width: 640px) {
-  .projects__grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+/* ============================================================
+   Formación (asimétrico 5/7: estudios | certificaciones)
+   ============================================================ */
+.formacion__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 900px) {
+  .formacion__grid {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-3xl);
+    align-items: start;
   }
 }
 
@@ -243,5 +256,5 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-lg);
+  gap: 0 var(--space-lg);
 }

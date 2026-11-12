@@ -26,6 +26,9 @@
 }
 
 .navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem; /* objetivo táctil de 44px */
   font-family: var(--font-display);
   font-size: var(--fs-md);
   font-weight: var(--fw-bold);
@@ -70,8 +73,10 @@
 
 .navbar__menu a {
   position: relative;
-  display: block;
-  padding: var(--space-xs) var(--space-2xs);
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem; /* objetivo táctil de 44px */
+  padding: 0 var(--space-2xs);
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
   color: var(--color-text-secondary);
@@ -87,7 +92,7 @@
   position: absolute;
   left: var(--space-2xs);
   right: var(--space-2xs);
-  bottom: 2px;
+  bottom: var(--space-2xs);
   height: 1px;
   background-color: var(--color-text);
   transform: scaleX(0);
@@ -132,6 +137,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
+  min-height: 2.75rem; /* objetivo táctil de 44px */
   padding: 0.7rem 1.35rem;
   font-family: var(--font-body);
   font-size: var(--fs-sm);
@@ -799,16 +805,18 @@
 /* Variante compacta (stack dentro de las tarjetas de proyecto) */
 .chip--sm {
   padding: 0.2rem 0.55rem;
-  font-size: 0.7rem;
+  font-size: var(--fs-2xs);
 }
 
 /* ============================================================
    Tarjeta de proyecto
+   Móvil: tarjeta apilada (captura arriba, texto abajo).
+   Escritorio: fila 7/5 con la captura enmarcada; las filas pares
+   invierten el lado para romper la simetría.
    ============================================================ */
 .project-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow: hidden;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -826,6 +834,13 @@
   box-shadow: var(--shadow-md);
 }
 
+/* Escenario: la media y el pie que dice qué muestra la captura */
+.project-card__stage {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--color-border);
+}
+
 /* Media (captura o placeholder). Es un botón: abre el modal de detalle. */
 .project-card__media {
   position: relative;
@@ -840,7 +855,11 @@
     var(--color-surface-2),
     var(--color-bg)
   );
-  border-bottom: 1px solid var(--color-border);
+}
+
+/* El anillo de foco va por dentro: la tarjeta recorta lo que sobresale */
+.project-card__media:focus-visible {
+  outline-offset: -4px;
 }
 
 /* Overlay "Ver detalle" al pasar el cursor por la media */
@@ -964,6 +983,29 @@
   opacity: 0.35;
 }
 
+/* Pie de la captura actual (lo actualiza project-slides.js) */
+.project-card__caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  /* Reserva dos renglones: el texto cambia sin mover la tarjeta */
+  min-height: calc(2em * var(--lh-snug) + 2 * var(--space-sm));
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+  color: var(--color-text-secondary);
+}
+
+.project-card__caption-count {
+  flex-shrink: 0;
+  color: var(--color-text);
+}
+
+[data-slides-caption].is-changing {
+  animation: caption-in 0.25s var(--ease-out);
+}
+
 /* Cuerpo */
 .project-card__body {
   display: flex;
@@ -971,6 +1013,15 @@
   gap: var(--space-sm);
   flex: 1;
   padding: var(--space-lg);
+}
+
+/* Contexto del proyecto (equipo, cliente…) */
+.project-card__role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
 }
 
 .project-card__top {
@@ -993,11 +1044,59 @@
   color: var(--color-text-secondary);
 }
 
-/* Pie alineado abajo (mantiene las tarjetas parejas) */
+/* Cifras verificables: el número manda, la etiqueta acompaña */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-block: var(--space-xs);
+  border-block: 1px solid var(--color-border);
+}
+
+.figures__item {
+  display: flex;
+  flex-direction: column-reverse; /* dd (número) arriba, dt (etiqueta) abajo */
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  padding-block: var(--space-sm);
+  padding-right: var(--space-xs);
+}
+
+.figures__item + .figures__item {
+  padding-left: var(--space-xs);
+  border-left: 1px solid var(--color-border);
+}
+
+@media (min-width: 560px) {
+  .figures__item {
+    padding-right: var(--space-sm);
+  }
+
+  .figures__item + .figures__item {
+    padding-left: var(--space-sm);
+  }
+}
+
+.figures dd {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+.figures dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-snug);
+  overflow-wrap: anywhere;
+  color: var(--color-text-secondary);
+}
+
 .project-card__footer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-2xs);
   margin-top: auto;
   padding-top: var(--space-xs);
 }
@@ -1020,15 +1119,20 @@
   background-color: var(--color-surface-2);
 }
 
+/* Los enlaces miden 44px de alto (objetivo táctil); el margen negativo
+   compensa el aire extra para que el pie no se vea más alto. */
 .project-card__links {
   display: flex;
-  gap: var(--space-lg);
+  flex-wrap: wrap;
+  gap: 0 var(--space-lg);
+  margin-bottom: calc(-1 * var(--space-sm));
 }
 
 .project-card__link {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  min-height: 2.75rem;
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
   color: var(--color-text-secondary);
@@ -1036,6 +1140,63 @@
 
 .project-card__link:hover {
   color: var(--color-text);
+}
+
+/* ---------- Escritorio: fila con la captura enmarcada ---------- */
+@media (min-width: 960px) {
+  .project-card {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .project-card__stage {
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border-right: 1px solid var(--color-border);
+    border-bottom: 0;
+    background: radial-gradient(
+      120% 120% at 30% 20%,
+      var(--color-surface-2),
+      var(--color-bg)
+    );
+  }
+
+  /* Filas pares: la captura pasa a la derecha */
+  .project-card:nth-of-type(even) .project-card__stage {
+    order: 2;
+    border-right: 0;
+    border-left: 1px solid var(--color-border);
+  }
+
+  /* La captura queda enmarcada, como una ventana sobre el escenario */
+  .project-card__media {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .project-card__media:focus-visible {
+    outline-offset: 3px;
+  }
+
+  .project-card__caption {
+    min-height: calc(2em * var(--lh-snug));
+    padding: 0 var(--space-2xs);
+  }
+
+  .project-card__body {
+    justify-content: center;
+    padding: clamp(var(--space-lg), 2.5vw, var(--space-xl));
+  }
+
+  .project-card__title {
+    font-size: var(--fs-xl);
+  }
+
+  .project-card__footer {
+    margin-top: 0;
+  }
 }
 
 /* ============================================================
@@ -1048,7 +1209,7 @@
   flex-shrink: 0;
   padding: 0.25rem 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--fs-2xs);
   white-space: nowrap;
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
@@ -1070,6 +1231,245 @@
 
 .badge--wip::before {
   background-color: var(--status-wip);
+}
+
+/* ============================================================
+   Formación: línea de tiempo + credenciales
+   ============================================================ */
+.formacion__label {
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Estudios: línea de tiempo ---------- */
+.timeline {
+  display: grid;
+  gap: var(--space-xl);
+  padding-left: var(--space-lg);
+  border-left: 1px solid var(--color-border);
+}
+
+.timeline__item {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-xs);
+}
+
+/* Nodo centrado sobre la línea (8px de punto sobre 1px de línea) */
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  top: 0.45rem;
+  left: calc(-1 * var(--space-lg) - var(--space-2xs) - 0.5px);
+  width: var(--space-xs);
+  height: var(--space-xs);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-text-secondary);
+  border-radius: var(--radius-full);
+}
+
+/* El estudio actual: nodo lleno con halo */
+.timeline__item:first-child::before {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 var(--space-2xs) var(--glow-strong);
+}
+
+.timeline__when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.timeline__title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+}
+
+.timeline__where {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Disponibilidad: el mismo punto verde del hero */
+.timeline__note {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  margin-top: var(--space-2xs);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+
+.timeline__note-dot {
+  flex-shrink: 0;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  background-color: var(--status-live);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 var(--space-xs) var(--status-live);
+}
+
+/* ---------- Certificaciones: credenciales con talón ---------- */
+.credentials {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.credential {
+  --stub: 4.75rem; /* ancho del talón */
+  --notch: var(--space-xs); /* radio de la muesca */
+  --edge: var(--color-border);
+  display: grid;
+  grid-template-columns: var(--stub) minmax(0, 1fr);
+  background-color: var(--color-surface);
+  /* Anillo de 1px alrededor de cada muesca (continúa el borde) */
+  background-image:
+    radial-gradient(
+      circle at var(--stub) -1px,
+      transparent calc(var(--notch) - 0.5px),
+      var(--edge) var(--notch),
+      var(--edge) calc(var(--notch) + 1px),
+      transparent calc(var(--notch) + 1.5px)
+    ),
+    radial-gradient(
+      circle at var(--stub) calc(100% + 1px),
+      transparent calc(var(--notch) - 0.5px),
+      var(--edge) var(--notch),
+      var(--edge) calc(var(--notch) + 1px),
+      transparent calc(var(--notch) + 1.5px)
+    );
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-lg);
+  /* Muescas de ticket donde el talón se separa del cuerpo */
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at calc(var(--stub) + 1px) 0, transparent 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at calc(var(--stub) + 1px) 100%, transparent 97%, #000) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at calc(var(--stub) + 1px) 0, transparent 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at calc(var(--stub) + 1px) 100%, transparent 97%, #000) bottom / 100% 51% no-repeat;
+  transition: transform var(--transition-base);
+}
+
+.credential:hover {
+  --edge: var(--glow-strong);
+  transform: translateY(-2px);
+}
+
+.credential__stub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-xs);
+  color: var(--color-text-secondary);
+  border-right: 1px dashed var(--edge);
+}
+
+.credential__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast);
+}
+
+.credential:hover .credential__icon {
+  color: var(--color-text);
+}
+
+.credential__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.credential__count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  white-space: nowrap;
+}
+
+.credential__count b {
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+
+.credential__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+}
+
+.credential__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-sm);
+}
+
+.credential__issuer {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+}
+
+.credential__title {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+}
+
+.credential__detail {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+.credential__link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  margin-block: calc(-1 * var(--space-xs));
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.credential__link:hover {
+  color: var(--color-text);
+}
+
+@media (min-width: 560px) {
+  .credential {
+    --stub: 5.5rem;
+  }
+
+  .credential__body {
+    padding: var(--space-md) var(--space-lg);
+  }
 }
 
 /* ============================================================
@@ -1305,6 +1705,9 @@
 }
 
 .footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem; /* objetivo táctil de 44px */
   font-size: var(--fs-sm);
   color: var(--color-text-secondary);
 }
@@ -1465,8 +1868,8 @@ html.intro-open {
   right: var(--space-sm);
   display: grid;
   place-items: center;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2.75rem;
+  height: 2.75rem;
   font-size: 1.15rem;
   line-height: 1;
   color: var(--color-text-secondary);
@@ -1490,7 +1893,7 @@ html.intro-open {
   align-items: center;
   gap: var(--space-md);
   margin-bottom: var(--space-md);
-  padding-right: 2.25rem;
+  padding-right: 3rem;
 }
 
 .tech-dialog__icon {
@@ -1619,6 +2022,7 @@ html.intro-open {
 .cv-btn {
   display: inline-flex;
   align-items: center;
+  min-height: 2.75rem;
   padding: 0.45rem 0.9rem;
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
@@ -1653,6 +2057,8 @@ html.intro-open {
 }
 
 .cv-lang__btn {
+  min-width: 2.75rem;
+  min-height: calc(2.75rem - 6px); /* 44px con el marco del conmutador */
   padding: 0.3rem 0.65rem;
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
@@ -1777,7 +2183,7 @@ html.intro-open {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  padding-right: 2.25rem;
+  padding-right: 3rem;
 }
 
 /* Galería de capturas: la que entra se desliza desde el lado del avance */
@@ -1818,8 +2224,8 @@ html.intro-open {
   z-index: 1;
   display: grid;
   place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.75rem;
+  height: 2.75rem;
   font-size: 1.5rem;
   line-height: 1;
   color: var(--color-text);
@@ -1922,6 +2328,30 @@ html.intro-open {
   font-size: var(--fs-sm);
   line-height: var(--lh-normal);
   color: var(--color-text-secondary);
+}
+
+.project-dialog__highlights {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.project-dialog__highlights li {
+  position: relative;
+  padding-left: var(--space-md);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+}
+
+.project-dialog__highlights li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 0.35em;
+  height: 0.35em;
+  background-color: var(--color-text-secondary);
+  border-radius: 1px;
 }
 
 .project-dialog__stack {

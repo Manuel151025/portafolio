@@ -1,14 +1,26 @@
 ---
 /**
  * ProjectCard.astro — Tarjeta de proyecto + su modal de detalle.
- * Recibe un objeto `proyecto` (ver data/projects.js). La media rota las
- * capturas en carrusel (scripts/project-slides.js) y, como el botón
- * "Detalles", abre un <dialog> con la info completa y una galería
- * (scripts/project-modal.js y scripts/project-gallery.js). Ver CLAUDE.md §4 y §5.
+ * Recibe un objeto `proyecto` (ver data/projects.js). En escritorio es una
+ * fila (captura a un lado, texto al otro) y en móvil una tarjeta apilada.
+ * La media rota las capturas en carrusel (scripts/project-slides.js) y,
+ * como el botón "Detalles", abre un <dialog> con la info completa y una
+ * galería (scripts/project-modal.js y scripts/project-gallery.js).
+ * Ver CLAUDE.md §4 y §5.
  */
 const { proyecto, index = 0 } = Astro.props;
-const { titulo, descripcion, stack, estado, repo, demo, capturas = [] } =
-  proyecto;
+const {
+  titulo,
+  rol,
+  descripcion,
+  cifras = [],
+  destacados = [],
+  stack,
+  estado,
+  repo,
+  demo,
+  capturas = [],
+} = proyecto;
 const varias = capturas.length > 1;
 
 const enProduccion = estado.toLowerCase().startsWith("produc");
@@ -21,58 +33,90 @@ const slug = titulo
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/(^-|-$)/g, "");
 const dialogId = `project-${slug}`;
+
+/** @param {number} n */
+const pad = (n) => String(n).padStart(2, "0");
 ---
 
 <article class="project-card reveal" style={`--reveal-delay: ${index * 90}ms`}>
-  <button
-    class="project-card__media"
-    type="button"
-    aria-label={`Ver detalle de ${titulo}`}
-    data-project-open={dialogId}
-    data-slides={varias ? "" : undefined}
-  >
+  <div class="project-card__stage">
+    <button
+      class="project-card__media"
+      type="button"
+      aria-label={`Ver detalle de ${titulo}`}
+      data-project-open={dialogId}
+      data-slides={varias ? "" : undefined}
+    >
+      {
+        capturas.length ? (
+          capturas.map((captura, i) => (
+            <img
+              class={`slides__img${i === 0 ? " is-active" : ""}`}
+              src={captura.src}
+              alt=""
+              data-caption={captura.alt}
+              loading="lazy"
+              decoding="async"
+              width="1280"
+              height="720"
+            />
+          ))
+        ) : (
+          <span class="project-card__placeholder" aria-hidden="true">
+            &lt;/&gt;
+          </span>
+        )
+      }
+      {
+        varias && (
+          <span class="slides__bars" aria-hidden="true">
+            {capturas.map(() => (
+              <span class="slides__bar">
+                <span class="slides__fill" />
+              </span>
+            ))}
+          </span>
+        )
+      }
+      <span class="project-card__zoom" aria-hidden="true">
+        <span class="project-card__zoom-pill">Ver detalle ↗</span>
+      </span>
+    </button>
+
     {
-      capturas.length ? (
-        capturas.map((captura, i) => (
-          <img
-            class={`slides__img${i === 0 ? " is-active" : ""}`}
-            src={captura.src}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            width="1280"
-            height="720"
-          />
-        ))
-      ) : (
-        <span class="project-card__placeholder" aria-hidden="true">
-          &lt;/&gt;
-        </span>
+      capturas.length > 0 && (
+        <p class="project-card__caption" aria-hidden="true">
+          <span class="project-card__caption-count" data-slides-count>
+            {pad(1)}/{pad(capturas.length)}
+          </span>
+          <span data-slides-caption>{capturas[0].alt}</span>
+        </p>
       )
     }
-    {
-      varias && (
-        <span class="slides__bars" aria-hidden="true">
-          {capturas.map(() => (
-            <span class="slides__bar">
-              <span class="slides__fill" />
-            </span>
-          ))}
-        </span>
-      )
-    }
-    <span class="project-card__zoom" aria-hidden="true">
-      <span class="project-card__zoom-pill">Ver detalle ↗</span>
-    </span>
-  </button>
+  </div>
 
   <div class="project-card__body">
+    {rol && <p class="project-card__role">{rol}</p>}
+
     <div class="project-card__top">
       <h3 class="project-card__title">{titulo}</h3>
       <span class={`badge ${badgeMod}`}>{estado}</span>
     </div>
 
     <p class="project-card__desc">{descripcion}</p>
+
+    {
+      cifras.length > 0 && (
+        <dl class="figures">
+          {cifras.map((cifra) => (
+            <div class="figures__item">
+              <dt>{cifra.etiqueta}</dt>
+              <dd>{cifra.valor}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
 
     <footer class="project-card__footer">
       <ul class="project-card__stack">
@@ -205,7 +249,16 @@ const dialogId = `project-${slug}`;
       )
     }
 
+    {rol && <p class="project-card__role">{rol}</p>}
     <p class="project-dialog__desc">{descripcion}</p>
+
+    {
+      destacados.length > 0 && (
+        <ul class="project-dialog__highlights">
+          {destacados.map((item) => <li>{item}</li>)}
+        </ul>
+      )
+    }
 
     <ul class="project-dialog__stack">
       {stack.map((tech) => <li class="chip chip--sm">{tech}</li>)}

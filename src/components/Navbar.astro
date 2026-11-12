@@ -5,13 +5,14 @@
  * menú desplegable en móvil. Interactividad en scripts/navbar.js.
  * Ver CLAUDE.md §7.
  *
- * Los enlaces apuntan a secciones que se añaden en etapas posteriores
- * (#about, #stack, #projects, #contact).
+ * Cada enlace apunta a una sección de index.astro (el scroll-spy de
+ * navbar.js marca la que está en pantalla).
  */
 const links = [
   { href: "#about", label: "Sobre mí" },
   { href: "#stack", label: "Stack" },
   { href: "#projects", label: "Proyectos" },
+  { href: "#formacion", label: "Formación" },
   { href: "#contact", label: "Contacto" },
 ];
 ---
