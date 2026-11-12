@@ -140,7 +140,7 @@ const content = {
     education: [
       ["Tecnólogo en Análisis y Desarrollo de Software", "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá)", "2025 – 2027"],
       ["Bootcamp de Programación Nivel Explorador", "Talento Tech · MinTIC y CUN · 164 horas", "2025"],
-      ["Técnico en Sistemas por Competencias Laborales", "SENA", "2024"],
+      ["Técnico Laboral en Sistemas", "Academia Nacional de Sistemas", "2024"],
     ],
   },
   en: {
@@ -230,7 +230,7 @@ const content = {
     education: [
       ["Associate Degree in Software Analysis & Development", "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá), Colombia", "2025 – 2027"],
       ["Programming Bootcamp · Explorer Level", "Talento Tech · Colombian ICT Ministry and CUN · 164 hours", "2025"],
-      ["Technical Certificate in Systems (Labor Competencies)", "SENA", "2024"],
+      ["Systems Technician (Labor Competencies)", "Academia Nacional de Sistemas", "2024"],
     ],
   },
 };
@@ -459,10 +459,14 @@ ${fonts}
   ${section(4, c.labels.education)}
   ${c.education
     .map(
-      ([title, place, date]) => `<div class="edu">
-    <div class="row"><h3>${esc(title)}${place && place.length < 12 ? ` <span>· ${esc(place)}</span>` : ""}</h3><span class="date">${date}</span></div>
-    ${place.length >= 12 ? `<p class="meta">${esc(place)}</p>` : ""}
-  </div>`,
+      ([title, place, date]) => {
+        // La entidad va en la misma línea si título y entidad son cortos.
+        const inline = place && title.length + place.length < 76;
+        return `<div class="edu">
+    <div class="row"><h3>${esc(title)}${inline ? ` <span>· ${esc(place)}</span>` : ""}</h3><span class="date">${date}</span></div>
+    ${place && !inline ? `<p class="meta">${esc(place)}</p>` : ""}
+  </div>`;
+      },
     )
     .join("")}
 

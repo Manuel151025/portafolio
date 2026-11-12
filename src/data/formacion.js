@@ -5,8 +5,10 @@
  *
  * estudios[]:        titulo, entidad, periodo, estado (o null), nota (o null)
  * certificaciones[]: titulo, emisor, fecha (o null si sigue en curso),
- *                    icono (nombre de simple-icons, o null para usar la
- *                    sigla), sigla (texto corto en el talón si no hay icono),
+ *                    icono (nombre de simple-icons) o logo (imagen PNG con
+ *                    fondo transparente en /img/logos/, se pinta como máscara
+ *                    en el gris del talón; usa uno de los dos y deja el otro
+ *                    en null),
  *                    carga ({ valor, unidad }: cursos u horas),
  *                    estado ("Completado" | "En curso"), detalle (o null),
  *                    credencial (enlace de verificación, o null)
@@ -35,8 +37,8 @@ export const estudios = [
     nota: null,
   },
   {
-    titulo: "Técnico en Sistemas por Competencias Laborales",
-    entidad: "SENA",
+    titulo: "Técnico Laboral por Competencias en Sistemas",
+    entidad: "Academia Nacional de Sistemas · 974 horas",
     periodo: "2024",
     estado: null,
     nota: null,
@@ -49,7 +51,7 @@ export const certificaciones = [
     emisor: "Google · Coursera",
     fecha: "Nov 2026",
     icono: "simple-icons:google",
-    sigla: null,
+    logo: null,
     carga: { valor: 8, unidad: "cursos" },
     estado: "Completado",
     detalle:
@@ -62,7 +64,7 @@ export const certificaciones = [
     emisor: "SENA",
     fecha: "Oct 2024",
     icono: null,
-    sigla: "SENA",
+    logo: "/img/logos/sena.png",
     carga: { valor: 40, unidad: "horas" },
     estado: "Completado",
     detalle: "Verificable en certificados.sena.edu.co.",
@@ -73,7 +75,7 @@ export const certificaciones = [
     emisor: "Google · Coursera",
     fecha: null,
     icono: "simple-icons:google",
-    sigla: null,
+    logo: null,
     carga: { valor: 8, unidad: "cursos" },
     estado: "En curso",
     detalle: null,
@@ -84,7 +86,7 @@ export const certificaciones = [
     emisor: "Google · Coursera",
     fecha: null,
     icono: "simple-icons:google",
-    sigla: null,
+    logo: null,
     carga: { valor: 8, unidad: "cursos" },
     estado: "En curso",
     detalle: null,

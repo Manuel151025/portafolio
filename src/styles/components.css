@@ -1400,12 +1400,15 @@
   height: 1.25rem;
 }
 
-/* Emisor sin logo en simple-icons (p. ej. SENA): su sigla en mono. */
-.credential__sigla {
-  font-family: var(--font-mono);
-  font-size: var(--fs-2xs);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-normal);
+/* Emisor sin logo en simple-icons (p. ej. SENA): su PNG transparente hace
+   de máscara y se pinta con el color del talón, igual que los iconos. */
+.credential__logo {
+  /* Un poco más grande que los iconos: el logo tiene más detalle. */
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
 }
 
 .credential__count {

@@ -65,7 +65,10 @@ const badgeDe = (estado) =>
                       {cert.icono ? (
                         <Icon name={cert.icono} />
                       ) : (
-                        <span class="credential__sigla">{cert.sigla}</span>
+                        <span
+                          class="credential__logo"
+                          style={`--logo: url(${cert.logo})`}
+                        />
                       )}
                     </span>
                     <span class="credential__count">
