@@ -1400,6 +1400,14 @@
   height: 1.25rem;
 }
 
+/* Emisor sin logo en simple-icons (p. ej. SENA): su sigla en mono. */
+.credential__sigla {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-normal);
+}
+
 .credential__count {
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);

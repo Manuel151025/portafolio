@@ -72,7 +72,7 @@ const content = {
       updated: "Actualizado en",
     },
     profile:
-      "Analista y desarrollador de software con dos sistemas en producción: una plataforma web con OCR y 386 pruebas automáticas, y un sistema de gestión para una panadería real. Cubro el ciclo completo: análisis, desarrollo, pruebas, seguridad y despliegue, y uso la IA sin soltar el criterio técnico. Trabajo con PHP, Python, JavaScript, TypeScript y Kotlin, y despliego con Docker en servidores Linux.",
+      "Analista y desarrollador de software con dos sistemas en producción: una plataforma web con OCR y 386 pruebas automáticas, y un sistema de gestión para una panadería real. Cubro el ciclo completo: análisis, desarrollo, pruebas, seguridad y despliegue, y uso la IA sin soltar el criterio técnico.",
     metrics: [
       ["3", "motores OCR en cascada"],
       ["386", "pruebas automáticas en CI"],
@@ -88,7 +88,7 @@ const content = {
     ],
     languages: [
       ["Español", "Nativo"],
-      ["Inglés", "Intermedio"],
+      ["Inglés", "Básico · Nivel 3 (SENA)"],
     ],
     projects: [
       {
@@ -126,20 +126,21 @@ const content = {
         link: googleAiLink,
       },
       {
-        title: "Certificado Profesional de Ciberseguridad de Google",
-        issuer: "Google · Coursera",
-        state: ["wip", "En curso"],
+        title: "Redes y Seguridad",
+        issuer: "SENA · 40 horas",
+        date: "Oct 2024",
+        state: ["done", "Completado"],
       },
       {
-        title: "Certificado Profesional de Análisis de Datos de Google",
-        issuer: "Google · Coursera",
+        title: "Ciberseguridad y Análisis de Datos de Google",
+        issuer: "Google · Coursera · Certificados profesionales",
         state: ["wip", "En curso"],
       },
     ],
     education: [
       ["Tecnólogo en Análisis y Desarrollo de Software", "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá)", "2025 – 2027"],
+      ["Bootcamp de Programación Nivel Explorador", "Talento Tech · MinTIC y CUN · 164 horas", "2025"],
       ["Técnico en Sistemas por Competencias Laborales", "SENA", "2024"],
-      ["Bachiller Académico", "", "2022"],
     ],
   },
   en: {
@@ -161,7 +162,7 @@ const content = {
       updated: "Updated",
     },
     profile:
-      "Software analyst and developer with two systems in production: a web platform with OCR and 386 automated tests, and a management system for a real bakery. I cover the full cycle: analysis, development, testing, security and deployment, and I use AI without giving up technical judgment. I work with PHP, Python, JavaScript, TypeScript and Kotlin, and deploy with Docker on Linux servers.",
+      "Software analyst and developer with two systems in production: a web platform with OCR and 386 automated tests, and a management system for a real bakery. I cover the full cycle: analysis, development, testing, security and deployment, and I use AI without giving up technical judgment.",
     metrics: [
       ["3", "cascading OCR engines"],
       ["386", "automated tests in CI"],
@@ -177,7 +178,7 @@ const content = {
     ],
     languages: [
       ["Spanish", "Native"],
-      ["English", "Intermediate"],
+      ["English", "Basic · Level 3 (SENA)"],
     ],
     projects: [
       {
@@ -215,20 +216,21 @@ const content = {
         link: googleAiLink,
       },
       {
-        title: "Google Cybersecurity Professional Certificate",
-        issuer: "Google · Coursera",
-        state: ["wip", "In progress"],
+        title: "Networking and Security",
+        issuer: "SENA · 40 hours",
+        date: "Oct 2024",
+        state: ["done", "Completed"],
       },
       {
-        title: "Google Data Analytics Professional Certificate",
-        issuer: "Google · Coursera",
+        title: "Google Cybersecurity and Data Analytics Certificates",
+        issuer: "Google · Coursera · Professional Certificates",
         state: ["wip", "In progress"],
       },
     ],
     education: [
       ["Associate Degree in Software Analysis & Development", "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá), Colombia", "2025 – 2027"],
+      ["Programming Bootcamp · Explorer Level", "Talento Tech · Colombian ICT Ministry and CUN · 164 hours", "2025"],
       ["Technical Certificate in Systems (Labor Competencies)", "SENA", "2024"],
-      ["High School Diploma", "", "2022"],
     ],
   },
 };

@@ -62,10 +62,14 @@ const badgeDe = (estado) =>
                 <article class="credential">
                   <div class="credential__stub" aria-hidden="true">
                     <span class="credential__icon">
-                      <Icon name="simple-icons:google" />
+                      {cert.icono ? (
+                        <Icon name={cert.icono} />
+                      ) : (
+                        <span class="credential__sigla">{cert.sigla}</span>
+                      )}
                     </span>
                     <span class="credential__count">
-                      <b>{cert.cursos}</b> cursos
+                      <b>{cert.carga.valor}</b> {cert.carga.unidad}
                     </span>
                   </div>
 
@@ -80,7 +84,9 @@ const badgeDe = (estado) =>
                       </span>
                     </div>
                     <h4 class="credential__title">{cert.titulo}</h4>
-                    <p class="visually-hidden">{cert.cursos} cursos</p>
+                    <p class="visually-hidden">
+                      {cert.carga.valor} {cert.carga.unidad}
+                    </p>
                     {cert.detalle && (
                       <p class="credential__detail">{cert.detalle}</p>
                     )}
