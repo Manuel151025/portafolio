@@ -4,8 +4,23 @@
  * Izquierda: badge de disponibilidad, rol, nombre (h1), CTAs y descripción.
  * Derecha: la credencial colgante. Indicador de scroll abajo.
  * Ver CLAUDE.md §7 y §8. Sin tagline (por decisión de diseño).
+ *
+ * El CV se regenera con el mismo nombre de archivo. Para que ningún navegador
+ * muestre uno anterior guardado en caché, su URL lleva la huella del
+ * contenido (?v=…), calculada al compilar; cv-viewer.js la lee del <dialog>.
  */
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import IdCard from "./IdCard.astro";
+
+/** @param {string} file Nombre del PDF dentro de public/ */
+const versioned = (file) => {
+  const bytes = readFileSync(join(process.cwd(), "public", file));
+  const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 8);
+  return `/${file}?v=${hash}`;
+};
+const cv = { es: versioned("cv.pdf"), en: versioned("cv-en.pdf") };
 ---
 
 <section class="hero" id="hero">
@@ -51,6 +66,8 @@ import IdCard from "./IdCard.astro";
   class="cv-dialog"
   id="cv-dialog"
   aria-label="Curriculum Vitae de Manuel Cárdenas"
+  data-cv-es={cv.es}
+  data-cv-en={cv.en}
 >
   <div class="cv-dialog__bar">
     <span class="cv-dialog__title">Curriculum Vitae</span>
@@ -63,7 +80,12 @@ import IdCard from "./IdCard.astro";
         <button class="cv-lang__btn" type="button" data-lang="en">EN</button>
       </div>
       <button class="cv-btn" type="button" id="cv-print">Imprimir</button>
-      <a class="cv-btn" id="cv-download" href="/cv.pdf" download>Descargar</a>
+      <a
+        class="cv-btn"
+        id="cv-download"
+        href={cv.es}
+        download="CV-Manuel-Cardenas.pdf">Descargar</a
+      >
       <button class="cv-btn cv-btn--close" type="button" id="cv-close">
         Volver al portafolio
       </button>
@@ -72,7 +94,6 @@ import IdCard from "./IdCard.astro";
   <div class="cv-dialog__viewer">
     <iframe
       class="cv-dialog__frame"
-      data-src="/cv.pdf#toolbar=0&navpanes=0&view=FitH"
       title="Curriculum Vitae de Manuel Cárdenas"
     ></iframe>
   </div>

@@ -188,6 +188,8 @@ Solo van los proyectos **en producción** que mejor muestran el trabajo (decisi�
 ### CV (scripts/gen-cv.mjs)
 Una página carta, ES y EN. Abre igual que el hero (estado, rol, nombre) y su columna oscura repite el carnet (cabecera `SOFTWARE DEV · DEV-2026`, foto, QR al portafolio). Lleva las tipografías del sitio embebidas (devDependencies `@fontsource/*`). Contenido: perfil, tres cifras, los mismos dos proyectos, certificaciones y educación. Si el contenido se pasa de una página, Chrome empuja el QR y el pie a una segunda: recortar texto, no bajar la letra.
 
+El CV se regenera con el mismo nombre de archivo, así que no puede quedar en la caché del navegador: `Hero.astro` enlaza cada PDF con la huella de su contenido (`/cv.pdf?v=…`, calculada al compilar; `cv-viewer.js` la lee del `<dialog>`) y `nginx.conf` deja los PDF fuera de la caché de 30 días.
+
 ### Contacto
 - Email: Manuelcardenassuarez2005@gmail.com
 - GitHub: https://github.com/Manuel151025

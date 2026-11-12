@@ -3,6 +3,10 @@
  * Responsabilidad única: abrir el <dialog> del CV, cambiar entre CV en
  * español (/cv.pdf) e inglés (/cv-en.pdf), imprimir y cerrar.
  * Carga el PDF de forma diferida (no afecta el LCP). Ver CLAUDE.md §4.
+ *
+ * Las rutas llegan del <dialog> (data-cv-es / data-cv-en) con la huella del
+ * archivo (?v=…) que calcula Hero.astro: así, al regenerar el CV, nadie ve
+ * uno anterior guardado en la caché del navegador.
  */
 
 const openBtn = document.getElementById("cv-open");
@@ -15,7 +19,10 @@ if (openBtn && dialog) {
   const downloadLink = dialog.querySelector("#cv-download");
   const langBtns = dialog.querySelectorAll(".cv-lang__btn");
 
-  const CV = { es: "/cv.pdf", en: "/cv-en.pdf" };
+  const CV = {
+    es: dialog.dataset.cvEs || "/cv.pdf",
+    en: dialog.dataset.cvEn || "/cv-en.pdf",
+  };
   let lang = "es";
 
   const loadCv = (nextLang) => {
