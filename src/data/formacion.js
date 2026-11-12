@@ -10,7 +10,9 @@
  *                    credencial (enlace de verificación, o null)
  *
  * Al terminar un certificado: pon su fecha, cambia el estado a "Completado"
- * y pega en `credencial` el enlace "Ver certificado" de Coursera.
+ * y pega en `credencial` su dirección pública de verificación, la que
+ * Coursera imprime en el certificado (coursera.org/verify/…). El mismo
+ * enlace va en el CV (scripts/gen-cv.mjs).
  */
 export const estudios = [
   {
@@ -18,7 +20,7 @@ export const estudios = [
     entidad: "SENA · Centro Tecnológico de la Amazonia, Florencia (Caquetá)",
     periodo: "2025 – 2027",
     estado: "En curso",
-    nota: "Disponible para etapa productiva (contrato de aprendizaje)",
+    nota: "Disponible para etapa productiva",
   },
   {
     titulo: "Técnico en Sistemas por Competencias Laborales",
@@ -38,7 +40,8 @@ export const certificaciones = [
     estado: "Completado",
     detalle:
       "Fundamentos de IA, investigación, redacción, creación de contenido, análisis de datos, y construcción y despliegue de aplicaciones con IA.",
-    credencial: null,
+    credencial:
+      "https://www.coursera.org/verify/professional-cert/H1LCXVM8XO2D",
   },
   {
     titulo: "Certificado Profesional de Ciberseguridad de Google",

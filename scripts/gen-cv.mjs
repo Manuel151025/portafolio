@@ -46,6 +46,11 @@ const breadLinks = [
   ["breadcontrol.manuelcardenas.online", "https://breadcontrol.manuelcardenas.online"],
   ["github.com/Manuel151025/breadcontrol", "https://github.com/Manuel151025/breadcontrol"],
 ];
+// Verificación pública en Coursera (el mismo enlace de src/data/formacion.js).
+const googleAiLink = [
+  "coursera.org/verify/professional-cert/H1LCXVM8XO2D",
+  "https://www.coursera.org/verify/professional-cert/H1LCXVM8XO2D",
+];
 
 const content = {
   es: {
@@ -118,6 +123,7 @@ const content = {
         state: ["done", "Completado"],
         detail:
           "IA aplicada a investigación, redacción, análisis de datos, y construcción y despliegue de apps.",
+        link: googleAiLink,
       },
       {
         title: "Certificado Profesional de Ciberseguridad de Google",
@@ -206,6 +212,7 @@ const content = {
         state: ["done", "Completed"],
         detail:
           "Applied AI for research, writing, data analysis, and building and deploying apps.",
+        link: googleAiLink,
       },
       {
         title: "Google Cybersecurity Professional Certificate",
@@ -442,6 +449,7 @@ ${fonts}
     <div class="row"><h3>${esc(cert.title)}</h3><span class="state state--${cert.state[0]}"><i></i>${cert.state[1]}</span></div>
     <p class="meta">${esc(cert.issuer)}${cert.date ? ` · ${cert.date}` : ""}</p>
     ${cert.detail ? `<p class="cert__detail">${esc(cert.detail)}</p>` : ""}
+    ${cert.link ? `<p class="links"><a href="${cert.link[1]}">${icons.out}${cert.link[0]}</a></p>` : ""}
   </div>`,
     )
     .join("")}

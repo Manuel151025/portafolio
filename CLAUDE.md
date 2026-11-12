@@ -181,9 +181,10 @@ Solo van los proyectos **en producción** que mejor muestran el trabajo (decisi�
 **Fuera del portafolio por ahora** (siguen en el historial de git y en GitHub): Lector de Cédulas (app de escritorio, sin repo ni demo públicos; se solapa con KondID), Proyecto Offline y SeguimientoSENA (en desarrollo). Vuelven cuando estén en producción y con demo abierta.
 
 ### Formación (data/formacion.js)
-- **Estudios:** Tecnólogo en Análisis y Desarrollo de Software — SENA, Centro Tecnológico de la Amazonia, Florencia (Caquetá), 2025–2027, en curso, disponible para etapa productiva (contrato de aprendizaje). Técnico en Sistemas por Competencias Laborales — SENA, 2024.
-- **Certificaciones (Google · Coursera):** Certificado Profesional de Google AI — completado en nov 2026 (8 cursos). En curso: Ciberseguridad de Google y Análisis de Datos de Google (8 cursos cada uno).
-- Al terminar un certificado: actualizar `formacion.js` (fecha, estado y enlace `credencial`), el bloque `certs` de `scripts/gen-cv.mjs` y regenerar el CV.
+- **Estudios:** Tecnólogo en Análisis y Desarrollo de Software — SENA, Centro Tecnológico de la Amazonia, Florencia (Caquetá), 2025–2027, en curso, disponible para etapa productiva. Técnico en Sistemas por Competencias Laborales — SENA, 2024.
+- **No se nombra la modalidad** de la etapa productiva (contrato de aprendizaje, pasantía…) ni en el sitio ni en el CV: solo "etapa productiva". Manuel pidió quitarla el 12 de noviembre de 2026.
+- **Certificaciones (Google · Coursera):** Certificado Profesional de Google AI — completado el 11 de nov de 2026 (8 cursos), con verificación pública en https://www.coursera.org/verify/professional-cert/H1LCXVM8XO2D. En curso: Ciberseguridad de Google y Análisis de Datos de Google (8 cursos cada uno).
+- Al terminar un certificado: actualizar `formacion.js` (fecha, estado y enlace `credencial`), el bloque `certs` de `scripts/gen-cv.mjs` (su `link`) y regenerar el CV. El enlace es la dirección `coursera.org/verify/…` que Coursera imprime en el certificado; si Manuel pasa un enlace corto (`share.google/…`), seguirlo y confirmar que abre su certificado antes de usarlo.
 
 ### CV (scripts/gen-cv.mjs)
 Una página carta, ES y EN. Abre igual que el hero (estado, rol, nombre) y su columna oscura repite el carnet (cabecera `SOFTWARE DEV · DEV-2026`, foto, QR al portafolio). Lleva las tipografías del sitio embebidas (devDependencies `@fontsource/*`). Contenido: perfil, tres cifras, los mismos dos proyectos, certificaciones y educación. Si el contenido se pasa de una página, Chrome empuja el QR y el pie a una segunda: recortar texto, no bajar la letra.
@@ -215,7 +216,7 @@ El CV se regenera con el mismo nombre de archivo, así que no puede quedar en la
 - [ ] Foto real para el carnet (`public/img/perfil.jpg`).
 - [x] CV en PDF (`public/cv.pdf` y `public/cv-en.pdf`): se edita y regenera con `node scripts/gen-cv.mjs`.
 - [x] Capturas de proyectos (`public/img/proyectos/`): 3 por proyecto, con datos de demostración o inventados (nunca datos reales).
-- [ ] Pegar en `src/data/formacion.js` (`credencial`) el enlace "Ver certificado" del Certificado Profesional de Google AI en Coursera.
+- [x] Enlace de verificación del Certificado Profesional de Google AI: puesto en `src/data/formacion.js` (`credencial`) y en el CV.
 - [ ] Al terminar Ciberseguridad y Análisis de Datos de Google: pasarlos a "Completado" en el sitio y en el CV.
 - [ ] Terminar Proyecto Offline y SeguimientoSENA → cuando estén en producción y con demo abierta, devolverlos a `projects.js`.
 - [ ] Confirmar las fechas del tecnólogo (2025–2027) y, cuando haya, la fecha de inicio de la etapa productiva.
